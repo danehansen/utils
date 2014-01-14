@@ -159,35 +159,19 @@ var MyMath=
 			return higher;
 	},
 
-	shuffle:function(list, duplicate)
+	shuffle:function(list,duplicate)
 	{
 		duplicate=typeof duplicate!=='undefined'?duplicate:false;
-
-		var copy=list.slice(0,list.length);
-		var placeHolder=list.slice(0,0);
-		var startingLength=list.length;
-		for(var i=0; i<startingLength; i++)
+		var length=list.length;
+		var shuffledArray=duplicate?list.slice(0,length):list;
+		for (var i = 0; i<length; i++)
 		{
-			var randomIndex=MyMath.random(0,copy.length-1,true);
-			placeHolder.push(copy[randomIndex]);
-			copy.splice(randomIndex,1);
+			var randomIndex=Math.floor(Math.random()*(length-i));
+			var dest=shuffledArray[length-1-i];
+			shuffledArray[length-1-i]=shuffledArray[randomIndex];
+			shuffledArray[randomIndex]=dest;
 		}
-		for(i=0; i<startingLength; i++)
-		{
-			copy.push(placeHolder[i]);
-		}
-		if(duplicate)
-		{
-			return copy;
-		}
-		else
-		{
-			for(i=0; i<startingLength; i++)
-			{
-				list[i]=copy[i];
-			}
-			return list;
-		}
+		return shuffledArray;
 	},
 
 	toDegrees:function(targ, offset)
