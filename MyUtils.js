@@ -97,6 +97,67 @@ var MyUtils=
 			return func.apply(context, args.concat(slice.call(arguments)));
 		};
 	},
+	browser:function()
+	{
+		if(!MyUtils._browser)
+		{
+			var ua=navigator.userAgent, 
+				msie=/(msie|trident)/i.test(ua),
+				chrome=/chrome|crios/i.test(ua),
+				phantom=/phantom/i.test(ua),
+				safari=/safari/i.test(ua) && !chrome && !phantom,
+				firefox=/firefox/i.test(ua),
+				webkitVersion=/version\/(\d+(\.\d+)?)/i,
+				firefoxVersion=/firefox\/(\d+(\.\d+)?)/i;
+			if(chrome)
+			{
+				MyUtils._browser=
+				{
+					name:"chrome",
+					version:parseFloat(ua.match(/(?:chrome|crios)\/(\d+(\.\d+)?)/i)[1]),
+					webkit:true
+				}
+			}
+			else if(firefox)
+			{
+				MyUtils._browser=
+				{
+					name:"firefox",
+					version:parseFloat(ua.match(firefoxVersion)[1]),
+					webkit:false
+				}
+			}
+			else if(safari)
+			{
+				MyUtils._browser=
+				{
+					name:"safari",
+					version:parseFloat(ua.match(webkitVersion)[1]),
+					webkit:true
+				}
+			}
+			else if(msie)
+			{
+				MyUtils._browser=
+				{
+					name:"msie",
+					version:parseFloat(ua.match(/(msie |rv:)(\d+(\.\d+)?)/i)[2]),
+					webkit:false
+				}
+			}
+			else
+			{
+				MyUtils._browser=
+				{
+					name:"",
+					version:0,
+					webkit:false
+				}
+			}
+		}
+		return MyUtils._browser;
+	},
+		_browser:null,
 	css:function(elements,props)
 	{
 		if(!elements[0])
@@ -124,6 +185,14 @@ var MyUtils=
 		}
 	},
 		_dropShadow:null,
+	getStyle:function(element, property)
+	{
+		var style=element[property];
+		if(style!="")
+			return style;
+		else
+			return window.getComputedStyle(element,property);
+	},
 	hasClass:function(elements,str)
 	{
 		if(!elements[0])
@@ -221,5 +290,14 @@ var MyUtils=
 			MyUtils._touch="ontouchstart" in window;
 		return MyUtils._touch;
 	},
-		_touch:null
+		_touch:null,
+	toUnicode:function(str)
+	{
+	    var unicode="";
+	    for(var i=0, iLen=str.length; i<iLen; i++)
+	    {
+	        unicode+=("&#"+str.charCodeAt(i)+";")
+	    }
+	    return unicode;
+	}
 };
