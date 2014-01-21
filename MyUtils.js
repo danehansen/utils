@@ -10,7 +10,7 @@ var MyUtils=
 	PREFIXES:["","-webkit-", "-moz-", "-ms-", "-o-"],
 	addClass:function(elements,str)
 	{
-		if(!elements[0])
+		if(!MyUtils.isList)
 			elements=[elements];
 		for(var i=0, iLen=elements.length; i<iLen; i++)
 		{
@@ -22,24 +22,16 @@ var MyUtils=
 	},
 	addEventListener:function(elements,evt,handler)
 	{
-		if(!elements[0])
+		if(!MyUtils.isList)
 			elements=[elements];
-		if(!MyUtils._addEventListener)
-		{
-			if(elements[0].addEventListener)
-				MyUtils._addEventListener="addEventListener";
-			else
-				MyUtils._addEventListener="attachEvent";
-		}
 		for(var i=0,iLen=elements.length; i<iLen; i++)
 		{
-			elements[i][MyUtils._addEventListener](evt,handler);
+			elements[i].addEventListener(evt,handler);
 		}
 	},
-		_addEventListener:null,
 	addMouseEnter:function(elements,handler)
 	{
-		if(!elements[0])
+		if(!MyUtils.isList)
 			elements=[elements];
 		for(var i=0, iLen=elements.length; i<iLen; i++)
 		{
@@ -61,7 +53,7 @@ var MyUtils=
 		_ON_MOUSE_ENTER:{},
 	addMouseLeave:function(elements,handler)
 	{
-		if(!elements[0])
+		if(!MyUtils.isList)
 			elements=[elements];
 		for(var i=0, iLen=elements.length; i<iLen; i++)
 		{
@@ -87,15 +79,16 @@ var MyUtils=
 	},
 	bind:function(func, context)
 	{
-		var slice=Array.prototype.slice;
-		var proto=Function.prototype;
-		if(func.bind===proto && proto)
-			return proto.apply(func, slice.call(arguments, 1));
-		var args=slice.call(arguments, 2);
-		return function()
+		return Function.prototype.bind.apply(func, Array.prototype.slice.call(arguments, 1));
+	},
+	bindAll:function(obj)
+	{
+		var funcs=Array.prototype.slice.call(arguments, 1);
+		for(var i=0, iLen=funcs.length; i<iLen; i++)
 		{
-			return func.apply(context, args.concat(slice.call(arguments)));
-		};
+			obj[funcs[i]]=MyUtils.bind(obj[funcs[i]], obj);
+		}
+		return obj;
 	},
 	browser:function()
 	{
@@ -160,7 +153,7 @@ var MyUtils=
 		_browser:null,
 	css:function(elements,props)
 	{
-		if(!elements[0])
+		if(!MyUtils.isList)
 			elements=[elements];
 		for(var i=0, iLen=elements.length; i<iLen; i++)
 		{
@@ -195,7 +188,7 @@ var MyUtils=
 	},
 	hasClass:function(elements,str)
 	{
-		if(!elements[0])
+		if(!MyUtils.isList)
 			elements=[elements];
 		for(var i=0, iLen=elements.length; i<iLen; i++)
 		{
@@ -213,9 +206,13 @@ var MyUtils=
 		}
 		return -1;
 	},
+	isList:function(list)
+	{
+		return list.length!=undefined;
+	},
 	removeClass:function(elements,str)
 	{
-		if(!elements[0])
+		if(!MyUtils.isList)
 			elements=[elements];
 		for(var i=0, iLen=elements.length; i<iLen; i++)
 		{
@@ -232,24 +229,16 @@ var MyUtils=
 	},
 	removeEventListener:function(elements,event,handler)
 	{
-		if(!elements[0])
+		if(!MyUtils.isList)
 			elements=[elements];
-		if(!MyUtils._removeEventListener)
-		{
-			if(elements[0].removeEventListener)
-				MyUtils._removeEventListener="removeEventListener";
-			else
-				MyUtils._removeEventListener="detachEvent";
-		}
 		for(var i=0,iLen=elements.length; i<iLen; i++)
 		{
-			elements[i][MyUtils._removeEventListener](event,handler);
+			elements[i].removeEventListener(event,handler);
 		}
 	},
-		_removeEventListener:null,
 	removeMouseEnter:function(elements)
 	{
-		if(!elements[0])
+		if(!MyUtils.isList)
 			elements=[elements];
 		for(var i=0, iLen=elements.length; i<iLen; i++)
 		{
@@ -263,7 +252,7 @@ var MyUtils=
 	},
 	removeMouseLeave:function(elements)
 	{
-		if(!elements[0])
+		if(!MyUtils.isList)
 			elements=[elements];
 		for(var i=0, iLen=elements.length; i<iLen; i++)
 		{
@@ -293,11 +282,11 @@ var MyUtils=
 		_touch:null,
 	toUnicode:function(str)
 	{
-	    var unicode="";
-	    for(var i=0, iLen=str.length; i<iLen; i++)
-	    {
-	        unicode+=("&#"+str.charCodeAt(i)+";")
-	    }
-	    return unicode;
+		var unicode="";
+		for(var i=0, iLen=str.length; i<iLen; i++)
+		{
+			unicode+=("&#"+str.charCodeAt(i)+";")
+		}
+		return unicode;
 	}
 };
