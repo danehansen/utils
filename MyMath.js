@@ -54,11 +54,6 @@ var MyMath=
 	},
 		_COVER:{},
 
-	distance:function(point1, point2)
-	{
-		return Math.sqrt(Math.pow(point1.x-point2.x,2)+Math.pow(point1.y-point2.y,2));
-	},
-
 	ease:function(targOrNum, propOrDest, destOrSpeed, speed)
 	{
 		var defaultSpeed=0.05;
@@ -159,19 +154,35 @@ var MyMath=
 			return higher;
 	},
 
-	shuffle:function(list,duplicate)
+	shuffle:function(list, duplicate)
 	{
 		duplicate=typeof duplicate!=='undefined'?duplicate:false;
-		var length=list.length;
-		var shuffledArray=duplicate?list.slice(0,length):list;
-		for (var i = 0; i<length; i++)
+
+		var copy=list.slice(0,list.length);
+		var placeHolder=list.slice(0,0);
+		var startingLength=list.length;
+		for(var i=0; i<startingLength; i++)
 		{
-			var randomIndex=Math.floor(Math.random()*(length-i));
-			var dest=shuffledArray[length-1-i];
-			shuffledArray[length-1-i]=shuffledArray[randomIndex];
-			shuffledArray[randomIndex]=dest;
+			var randomIndex=MyMath.random(0,copy.length-1,true);
+			placeHolder.push(copy[randomIndex]);
+			copy.splice(randomIndex,1);
 		}
-		return shuffledArray;
+		for(i=0; i<startingLength; i++)
+		{
+			copy.push(placeHolder[i]);
+		}
+		if(duplicate)
+		{
+			return copy;
+		}
+		else
+		{
+			for(i=0; i<startingLength; i++)
+			{
+				list[i]=copy[i];
+			}
+			return list;
+		}
 	},
 
 	toDegrees:function(targ, offset)

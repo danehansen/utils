@@ -1,18 +1,12 @@
-MyUtils._addEventListener=null;
 MyUtils.addEventListener=function(elements,evt,handler)
 {
 	if(!MyUtils.isList)
 		elements=[elements];
-	if(!MyUtils._addEventListener && elements.length>0)
-	{
-		if(elements[0].addEventListener)
-			MyUtils._addEventListener="addEventListener";
-		else
-			MyUtils._addEventListener="attachEvent";
-	}
+	if(!MyUtils._listeners && elements.length>0)
+		MyUtils._setEventListeners(elements[0]);
 	for(var i=0,iLen=elements.length; i<iLen; i++)
 	{
-		elements[i][MyUtils._addEventListener](evt,handler);
+		elements[i][MyUtils._listeners.add](evt,handler);
 	}
 };
 
@@ -37,20 +31,30 @@ MyUtils.bind=function(func, context)
 	};
 };
 
-MyUtils._removeEventListener=null;
 MyUtils.removeEventListener=function(elements,event,handler)
 {
 	if(!MyUtils.isList)
 		elements=[elements];
-	if(!MyUtils._removeEventListener && elements.length>0)
-	{
-		if(elements[0].removeEventListener)
-			MyUtils._removeEventListener="removeEventListener";
-		else
-			MyUtils._removeEventListener="detachEvent";
-	}
+	if(!MyUtils._listeners && elements.length>0)
+		MyUtils._setEventListeners(elements[0]);
 	for(var i=0,iLen=elements.length; i<iLen; i++)
 	{
-		elements[i][MyUtils._removeEventListener](event,handler);
+		elements[i][MyUtils._listeners.remove](event,handler);
 	}
 };
+
+MyUtils._listeners=null;
+MyUtils._setEventListeners=function(element)
+{
+	MyUtils._listeners={};
+	if(element.removeEventListener)
+	{
+		MyUtils._listeners.add="addEventListener";
+		MyUtils._listeners.remove="removeEventListener";
+	}
+	else
+	{
+		MyUtils._listeners.add="attachEvent";
+		MyUtils._listeners.remove="detachEvent";
+	}
+}
