@@ -43,18 +43,22 @@ MyPoint.prototype.equals=function(point)
 	return this.x==point.x && this.y==point.y;
 }
 
-/*MyPoint.interpolate=function(point1, point2, amount)
+MyPoint.interpolate=function(point1, point2, amount)
 {
-}*/
+	return new MyPoint(point1.x+(point2.x-point1.x)*amount, point1.y+(point2.y-point1.y)*amount);
+}
 
 MyPoint.prototype.length=function()
 {
 	return MyPoint.distance(this, new MyPoint());
 }
 
-/*MyPoint.prototype.normalize=function(point1, point2, amount)
+MyPoint.prototype.normalize=function(thickness)
 {
-}*/
+	var ratio=thickness/this.length();
+	this.x*=ratio;
+	this.y*=ratio;
+}
 
 MyPoint.prototype.offset=function(x, y)
 {
