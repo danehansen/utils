@@ -185,6 +185,16 @@ var MyMath=
 		}
 	},
 
+	sortAscending:function(a,b)
+	{
+		return a-b;
+	},
+
+	sortDescending:function(a,b)
+	{
+		return b-a;
+	},
+
 	toDegrees:function(targ, offset)
 	{
 		offset = typeof offset !== 'undefined' ? offset : false;
