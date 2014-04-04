@@ -147,6 +147,8 @@ var MyUtils=
 					webkit:false
 				}
 			}
+			MyUtils._browser.tablet=/tablet/i.test(ua);
+			MyUtils._browser.phone=!MyUtils._browser.tablet && /[^-]mobi/i.test(ua);
 		}
 		return MyUtils._browser;
 	},
