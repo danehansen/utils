@@ -10,7 +10,7 @@ var MyUtils=
 	PREFIXES:["","-webkit-", "-moz-", "-ms-", "-o-"],
 	addClass:function(elements,str)
 	{
-		if(!MyUtils.isList)
+		if(!MyUtils.isList(elements))
 			elements=[elements];
 		for(var i=0, iLen=elements.length; i<iLen; i++)
 		{
@@ -22,7 +22,7 @@ var MyUtils=
 	},
 	addEventListener:function(elements,evt,handler)
 	{
-		if(!MyUtils.isList)
+		if(!MyUtils.isList(elements))
 			elements=[elements];
 		for(var i=0,iLen=elements.length; i<iLen; i++)
 		{
@@ -31,7 +31,7 @@ var MyUtils=
 	},
 	addMouseEnter:function(elements,handler)
 	{
-		if(!MyUtils.isList)
+		if(!MyUtils.isList(elements))
 			elements=[elements];
 		for(var i=0, iLen=elements.length; i<iLen; i++)
 		{
@@ -53,7 +53,7 @@ var MyUtils=
 		_ON_MOUSE_ENTER:{},
 	addMouseLeave:function(elements,handler)
 	{
-		if(!MyUtils.isList)
+		if(!MyUtils.isList(elements))
 			elements=[elements];
 		for(var i=0, iLen=elements.length; i<iLen; i++)
 		{
@@ -153,7 +153,7 @@ var MyUtils=
 		_browser:null,
 	css:function(elements,props)
 	{
-		if(!MyUtils.isList)
+		if(!MyUtils.isList(elements))
 			elements=[elements];
 		for(var i=0, iLen=elements.length; i<iLen; i++)
 		{
@@ -188,7 +188,7 @@ var MyUtils=
 	},
 	hasClass:function(elements,str)
 	{
-		if(!MyUtils.isList)
+		if(!MyUtils.isList(elements))
 			elements=[elements];
 		for(var i=0, iLen=elements.length; i<iLen; i++)
 		{
@@ -212,7 +212,7 @@ var MyUtils=
 	},
 	removeClass:function(elements,str)
 	{
-		if(!MyUtils.isList)
+		if(!MyUtils.isList(elements))
 			elements=[elements];
 		for(var i=0, iLen=elements.length; i<iLen; i++)
 		{
@@ -229,7 +229,7 @@ var MyUtils=
 	},
 	removeEventListener:function(elements,event,handler)
 	{
-		if(!MyUtils.isList)
+		if(!MyUtils.isList(elements))
 			elements=[elements];
 		for(var i=0,iLen=elements.length; i<iLen; i++)
 		{
@@ -238,7 +238,7 @@ var MyUtils=
 	},
 	removeMouseEnter:function(elements)
 	{
-		if(!MyUtils.isList)
+		if(!MyUtils.isList(elements))
 			elements=[elements];
 		for(var i=0, iLen=elements.length; i<iLen; i++)
 		{
@@ -252,7 +252,7 @@ var MyUtils=
 	},
 	removeMouseLeave:function(elements)
 	{
-		if(!MyUtils.isList)
+		if(!MyUtils.isList(elements))
 			elements=[elements];
 		for(var i=0, iLen=elements.length; i<iLen; i++)
 		{
