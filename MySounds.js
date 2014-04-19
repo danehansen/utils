@@ -104,7 +104,8 @@ MySounds.playLoop=function(path)
 			MySounds._currentLoop=new Audio(path);
 			MySounds._PRELOADED_SOUNDS[path]=[MySounds._currentLoop];
 			MySounds._currentLoop.path=path;
-			MySounds._currentLoop.loop=true;
+			MySounds._currentLoop.addEventListener("ended",MyUtils.bind(MySounds._onEnded, this));
+			// MySounds._currentLoop.loop=true;
 		}
 		else
 		{
@@ -121,11 +122,19 @@ MySounds.playLoop=function(path)
 		MySounds._currentLoop=null;
 	}
 }
+
+MySounds._onEnded=function(evt)
+{
+	console.log("_onEnded", evt);
+	MySounds._currentLoop.play();
+}
 	
 	MySounds._formatFilename=function(str)
 	{
 		if(!str)
 			return "";
+		if(/.wav/.test(str))
+			return str;
 		if(!MySounds._ext)
 		{
 			var audio=new Audio();
@@ -134,7 +143,7 @@ MySounds.playLoop=function(path)
 			else if(audio.canPlayType("audio/ogg")!="")
 				MySounds._ext=".ogg";
 		}
-		return str.split(".mp3")[0]+MySounds._ext;
+		return str.replace(/.mp3|.ogg/,MySounds._ext)
 	}
 
 	MySounds._killLoop=function()
