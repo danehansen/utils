@@ -7,7 +7,6 @@
 
 var MyUtils=
 {
-	PREFIXES:["","-webkit-", "-moz-", "-ms-", "-o-"],
 	addClass:function(elements,str)
 	{
 		if(!MyUtils.isList(elements))
@@ -20,6 +19,27 @@ var MyUtils=
 				targ.className=className+(className.length==0?"":" ")+str;
 		}
 	},
+	addPrefix:function(str)
+	{
+		if(MyUtils._addPrefixStorage[str])
+			return MyUtils._addPrefixStorage[str];
+		var prefixed=MyUtils.browser().prefix+str.replace(/\b[a-z]/,  MyUtils._captitalize);
+		MyUtils._addPrefixStorage[str]=prefixed;
+		return prefixed;
+	},
+		_addPrefixStorage:{},
+		_captitalize:function(str)
+		{
+			return str.toUpperCase();
+		},
+		_ADD_PREFIXES_TO:
+		{
+			transform:true,
+			transformOrigin:true,
+			transition:true,
+			userSelect:true,
+			perspective:true
+		},
 	addEventListener:function(elements,evt,handler)
 	{
 		if(!MyUtils.isList(elements))
@@ -108,7 +128,8 @@ var MyUtils=
 				{
 					name:"chrome",
 					version:parseFloat(ua.match(/(?:chrome|crios)\/(\d+(\.\d+)?)/i)[1]),
-					webkit:true
+					webkit:true,
+					prefix:"webkit"
 				}
 			}
 			else if(firefox)
@@ -117,7 +138,8 @@ var MyUtils=
 				{
 					name:"firefox",
 					version:parseFloat(ua.match(firefoxVersion)[1]),
-					webkit:false
+					webkit:false,
+					prefix:"moz"
 				}
 			}
 			else if(safari)
@@ -126,7 +148,8 @@ var MyUtils=
 				{
 					name:"safari",
 					version:parseFloat(ua.match(webkitVersion)[1]),
-					webkit:true
+					webkit:true,
+					prefix:"webkit"
 				}
 			}
 			else if(msie)
@@ -135,7 +158,8 @@ var MyUtils=
 				{
 					name:"msie",
 					version:parseFloat(ua.match(/(msie |rv:)(\d+(\.\d+)?)/i)[2]),
-					webkit:false
+					webkit:false,
+					prefix:"ms"
 				}
 			}
 			else
@@ -144,7 +168,8 @@ var MyUtils=
 				{
 					name:"",
 					version:0,
-					webkit:false
+					webkit:false,
+					prefix:""
 				}
 			}
 			MyUtils._browser.tablet=/tablet/i.test(ua);
@@ -162,6 +187,8 @@ var MyUtils=
 			var style=elements[i].style
 			for(var j in props)
 			{
+				if(MyUtils._ADD_PREFIXES_TO[j])
+					style[MyUtils.addPrefix(j)]=props[j];
 				style[j]=props[j];
 			}
 		}
@@ -170,10 +197,9 @@ var MyUtils=
 	{
 		if(!_dropShadow)
 		{
-			var body=document.querySelector("body");
-			if(body.style.webkitFilter=="")
+			if(document.body.style.webkitFilter=="")
 				MyUtils._dropShadow="webkitFilter";
-			else if(body.style.msFilter=="")
+			else if(document.body.style.msFilter=="")
 				MyUtils._dropShadow="msFilter";
 			else
 				MyUtils._dropShadow="filter";
@@ -211,6 +237,21 @@ var MyUtils=
 	isList:function(list)
 	{
 		return list.length!=undefined;
+	},
+	loadBigImages:function()
+	{
+		var elements=document.querySelectorAll("*[data-background-image]");
+		for(var i=0, iLen=elements.length; i<iLen; i++)
+		{
+			var element=elements[i];
+			element.style.backgroundImage="url("+element.getAttribute("data-background-image")+")";
+		}
+		elements=document.querySelectorAll("img[data-src]");
+		for(i=0, iLen=elements.length; i<iLen; i++)
+		{
+			element=elements[i];
+			element.setAttribute("src", element.getAttribute("data-src"));
+		}
 	},
 	removeClass:function(elements,str)
 	{
