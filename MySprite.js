@@ -11,6 +11,7 @@
 
 function MySprite(elementOrList, numColumns, totalFrames, frameRate)
 {
+	// this._loop=false;
 	this._frameRate=frameRate||60;
 	this.elements=[];
 	if(elementOrList[0])
@@ -31,9 +32,7 @@ function MySprite(elementOrList, numColumns, totalFrames, frameRate)
 	
 	this._numColumns=numColumns;
 	this._totalFrames=totalFrames;
-	this._columnWidth=this.elements[0].offsetWidth;
-	this._rowHeight=this.elements[0].offsetHeight;
-
+	this.resize();
 }
 
 MySprite.prototype._toFrames=function(num)
@@ -87,7 +86,7 @@ MySprite.prototype._changeFrame=function()
 	var y=this._rowHeight*Math.floor(this._currentFrame/this._numColumns);
 	for(var i=0, iLen=this.elements.length; i<iLen; i++)
 	{
-		this.elements[i].style.backgroundPosition=-x+"px "+-y+"px";;
+		this.elements[i].style.backgroundPosition=-x+"px "+-y+"px";
 	}
 }
 
@@ -117,14 +116,39 @@ MySprite.prototype._resetDest=function()
 {
 	this._destProgress=Number.MAX_VALUE;
 	this._destFrame=Number.MAX_VALUE;
+	if(this._loop)
+	{
+		this._currentFrame=0;
+		this.play();
+	}
 }
 
 MySprite.prototype.play=function()
 {
+	if(this._loop)
+		this._destFrame=Number.MAX_VALUE;
 	this.frameTo(this._totalFrames-1);
 }
 
 MySprite.prototype.rewind=function()
 {
 	this.frameTo(0);
+}
+
+MySprite.prototype.resize=function()
+{
+	this._columnWidth=this.elements[0].offsetWidth;
+	this._rowHeight=this.elements[0].offsetHeight;
+}
+
+MySprite.prototype.loop=function()
+{
+	this._loop=true;
+	this.play();
+}
+
+MySprite.prototype.stop=function()
+{
+	this._loop=false;
+	TweenLite.killTweensOf(this);
 }

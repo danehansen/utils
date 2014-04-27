@@ -7,8 +7,8 @@
 
 function MyPoint(x, y)
 {
-	this.x=typeof x=="number"?x:0;
-	this.y=typeof y=="number"?y:0;
+	this.x=x||0; 
+	this.y=y||0; 
 }
 
 MyPoint.prototype.add=function(point)
@@ -19,6 +19,7 @@ MyPoint.prototype.add=function(point)
 
 MyPoint.prototype.angle=function()
 {
+	return Math.atan2(this.y, this.x);
 	return Math.atan2(this.y, this.x);
 }
 
