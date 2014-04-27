@@ -63,6 +63,11 @@ var MyMath=
 			targOrNum[propOrDest]+=(destOrSpeed-targOrNum[propOrDest])*(speed||defaultSpeed);
 	},
 
+	gauss:function(limit)
+	{
+		return limit*(limit+1)/2;
+	},
+
 	indexOf:function(list, value)
 	{
 		var index=-1;
