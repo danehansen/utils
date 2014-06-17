@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Timer</title>
+		<style type="text/css">
+			body
+			{
+				background-color:#FFF;
+				color:#000;
+				font-family:Helvetica, Arial;
+				font-size:12px;
+				padding:50px;
+			}
+
+			body > div
+			{
+				width:600px;
+				padding:20px 0;
+				margin-top:30px;
+			}
+
+			body > div, footer
+			{
+				border-top:1px solid #000;
+			}
+
+			footer
+			{
+				padding-top:20px;
+			}
+
+			#random figure
+			{
+
+			}
+
+				#random canvas
+				{
+					width:200px;
+					height:200px;
+					border:1px solid #000;
+				}
+
+			#timer figure
+			{
+				font-size:60px;
+				margin:0;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<h1>MyMath</h1>
+		<p><strong>Package</strong> : com.danehansen.utils <br />
+		<strong>Class</strong> : public class MyMath <br />
+		<strong>Inheritance</strong> : MyMath > Object</p>
+		<p>The MyMath class contains a collection of mathematical equations either written or collected to make shit easier and awesomer.</p>
+		<h2>Public Methods</h2>
+		<ul>
+			<li><strong>average</strong>(... args):Number <br />
+			Accepts either an unlimited quantity of numbers or an array of numbers and returns the total. </li>
+			<li><strong>cover</strong>(content:Element, frame:Element) <br />
+			Takes content element and fills the entirety of the frame element to scale. This would be likened to filling an element with a background image where with the css property <code>background-size:cover</code> but where that is not possible, Such as filling an element with a video element. It is assumed that the content will have <code>position:absolute</code> and the frame will have at least some sort of positioning applied, and probably also <code>overflow:hidden</code>. To scale the content, the original dimentions of the item before manipulation are recorded and then referred to each time it is resized. For example, if you are filling the entire background of a page with a bleeding video, the body would have <code>position:relative</code> and <code>overflow:hidden</code> applied, and the video would have <code>position:absolute</code> as well as <code>width:1280px</code> and <code>height:720px</code>.</li>
+			<li><strong>ease</strong>(target:Object, key:String, destination:Number, speed:Number = 0.05) <br />
+			Brings the object’s provided property (target[key]) towards the destination by a factor of speed. Great for making a display object follow a mouse cursor or some other moving target.</li>
+			<li><strong>ease</strong>(num:Number, destination:Number, speed:Number = 0.05):Number <br />
+			Same as above, but returns the eased amount rather than actually changing an object’s property.</li>
+			<li><strong>indexOf</strong>(list:<em>, value:</em>):int <br />
+			Similar to Array’s built in indexOf method, but can pass in a NodeList or anything with numeric keys and a length property to find the index. Returns -1 if not found.</li>
+			<li><strong>modulo</strong>(num:Number, limit:Number):Number <br />
+			Similar to the modulo (%) operator, but rather than mirroring at 0, it continues past 0. For example, -1%4=-1, but modulo(-1, 4)=3. Great for when you decrement a value below 0 and need the functionality to wrap, like an image gallery.</li>
+			<li><strong>primes</strong>(limit:Number):Array <br />
+			Returns an array of all prime numbers between 0 and limit.</li>
+			<li><strong>random</strong>(limit1:Number, limit2:Number = 0, round:Boolean = false, natural:int = 1):Number <br />
+			Returns a random number between limit1 and limit2. Optionally, it will be rounded. The natural... tough one to explain. It is a representation of how to make the random number favor towards the middle of the two limits. There is a difference between Math.random()*2, and Math.random()+Math.random(), and this argument builds upon that. If you covered a square with 100 points all with random x and y positions, leaving the natural factor would result in scattered points like until a section of a starry night. With natural bumped up to 2 or higher, it would look more like a shotgun blast.</li>
+			<li><strong>randomChoice</strong>(list:* = [-1,1], natural:int = 1):* <br />
+			Returns a random value from the provided array or list. The default is [-1,1] for instances when you need to randomly determine if something should be left or right, up or down.</li>
+			<li><strong>relativePercentage</strong>(bottomEnd:Number, topEnd:Number, current:Number):Number <br />
+			Returns the position of current in reference to a scale between bottomEnd and top end. Example: relativePercentage(2,4,3) returns 0.5.</li>
+			<li><strong>round</strong>(num:Number, increment:Number):Number <br />
+			Returns a number rounded by the increment, rather than by 1.</li>
+			<li><strong>shuffle</strong>(list:Number, duplicate:Boolean = false):Array <br />
+			Shuffles the provided array or list. If duplicate is set to true, the original list if left alone and the shuffled list is returned on a new array. Note: when shuffling a NodeList, always set duplicate to true as a NodeList does not shuffle well. </li>
+			<li><strong>sortAscending</strong>(a:Number, b:Number):Number <br />
+			Returns the difference between the a and b, meant to pass into the Array.sort method as an alternate to the default alphabetical.</li>
+			<li><strong>sortDescending</strong>(a:Number, b:Number):Number <br />
+			Returns the reversed difference between a and b, meant to pass into the Array.sort method as an alternate to the default alphabetical.</li>
+			<li><strong>toDegrees</strong>(rad:Number, offset:Boolean = false):Number <br />
+			Converts an angle in radians to degrees. By default, just returns an angle of the same amount measured in degrees, but when set to true will also account for offsetting by 1/4 turn.</li>
+			<li><strong>toRadians</strong>(deg:Number, offset:Boolean = false):Number <br />
+			Converts an angle in degrees to radians. By default, just returns an angle of the same amount measured in radians, but when set to true will also account for offsetting by 1/4 turn. </li>
+			<li><strong>total</strong>(list:*):Number <br />
+		Calculates the total in an array or list of values. Booleans will also be totaled as 1s or 0s.</li>
+		</ul>
+		<h1>Utils</h1>
+		<p><strong>Package</strong> : com.danehansen.utils <br />
+		<strong>Class</strong> : public class Utils <br />
+		<strong>Inheritance</strong> : Utils > Object</p>
+		<p>A collection of commonly reused static functions.</p>
+		<h2>Public Methods</h2>
+		<ul>
+			<li><strong>addClass</strong>(elements:*, className:String) <br />
+			Accepts either a single element, array of elements, or node list and applies a class to each if it does not already exist. </li>
+			<li><strong>addEventListener</strong>(elements:*, event:String, listener:Function) <br />
+			Accepts either a single element, array of elements, or node list and adds an event listener to each.</li>
+			<li><strong>addMouseEnter</strong>(elements:*, listener:Function) <br />
+			Accepts either a single element, array of elements, or node list and adds an event listener simulating jQuery’s mouseEnter. </li>
+			<li><strong>addMouseLeave</strong>(elements:*, listener:Function) <br />
+			Accepts either a single element, array of elements, or node list and adds an event listener simulating jQuery’s mouseLeave. </li>
+			<li><strong>addPrefix</strong>(style:String):String <br />
+			Receives a humpback notation css style name, and returns the vendor prefixed version of it. Example: Passing in “boxSizing” when in Firefox will return “mozBoxSizing”.</li>
+			<li><strong>autoAlpha</strong>(elements:*, value:Number) <br />
+			Accepts either a single element, array of elements, or node list and sets the opacity, while also setting visibility to hidden if at 0. </li>
+			<li><strong>bind</strong>(functions:Array, obj:Object, ...args:*) <br />
+			Loops through an array of function names as strings, finds them on the object, and replaces them with versions which are bound to the object, with any additional parameters provided. Useful in writing object-oriented JavaScript on a class where you can with one line write <code>Utils.bind(["play", "stop", "resize"], this);</code> rather than <code>this.play.bind(this); this.stop.bind(this); this.resize.bind(this);</code></li>
+			<li><strong>browser</strong>():Object <br />
+			Returns an object which contains information on the browser name, version and vendor prefix; and whether the browser is webkit, phone, tablet, mobile, iOS, or Android.  </li>
+			<li><strong>css</strong>(elements:*, props:Object) <br />
+			Accepts either a single element, array of elements, or node list and applies all style properties contained in props to them.  </li>
+			<li><strong>getStyle</strong>(element:Element, property:String):String <br />
+			First looks for the element’s style on it’s style object, if not there, looks to the window.getComputedStyle of the element.  </li>
+			<li><strong>hasClass</strong>(elements:*, className:String):Boolean <br />
+			Accepts either a single element, array of elements, or node list and looks through all of them and returns if one of them has that class or not.  </li>
+			<li><strong>removeClass</strong>(elements:*, className:String) <br />
+			Accepts either a single element, array of elements, or node list and removes a class from each if it exists. </li>
+			<li><strong>removeEventListener</strong>(elements:*, event:String, listener:Function) <br />
+			Accepts either a single element, array of elements, or node list and removes an event listener from each.</li>
+			<li><strong>removeMouseEnter</strong>(elements:*, listener:Function) <br />
+			Accepts either a single element, array of elements, or node list and removes an event listener simulating jQuery’s mouseEnter. </li>
+			<li><strong>removeMouseLeave</strong>(elements:*, listener:Function) <br />
+			Accepts either a single element, array of elements, or node list and removes an event listener simulating jQuery’s mouseLeave. </li>
+			<li><strong>touch</strong>():Boolean <br />
+			Returns whether or not the browser supports touch events. </li>
+			<li><strong>toUnicode</strong>(str:String):String <br />
+			Converts a string to unicode characters. </li>
+		</ul>
+		<h1>Timer</h1>
+		<p><strong>Package</strong> : com.danehansen.utils <br />
+		<strong>Class</strong> : public class Timer <br />
+		<strong>Inheritance</strong> : Timer > EventDispatcher > Object</p>
+		<p>The Timer class is the interface to setTimeout and setInterval, based on the AS3 Timer class but simplified. This class depends on EventDispatcher.js. Use the start() method to start a timer. Add an event listener for the timer event to set up code to be run on the timer interval.</p>
+		<p>You can create Timer objects to run once or repeat at specified intervals to execute code on a schedule.</p>
+		<h2>Public Methods</h2>
+		<ul>
+			<li><strong>Timer</strong>(delay:Number, repeatCount:int = 0) <br />
+			Constructs a new Timer object with the specified delay and repeatCount states.</li>
+			<li><strong>currentCount</strong>():int <br />
+			Gets the total number of times the timer has fired since it started at zero.</li>
+			<li><strong>delay</strong>(value:Number):* <br />
+			Gets or sets the delay, in milliseconds, between timer events.</li>
+			<li><strong>repeatCount</strong>(value:int):* <br />
+			Gets or sets the total number of times the timer is set to run.</li>
+			<li><strong>reset</strong>() <br />
+			Stops the timer, if it is running, and sets the currentCount property back to 0, like the reset button of a stopwatch.</li>
+			<li><strong>running</strong>():Boolean <br />
+			Gets the timer’s current state; true if the timer is running, otherwise false.</li>
+			<li><strong>start</strong>() <br />
+			Starts the timer, if it is not already running.</li>
+			<li><strong>stop</strong>() <br />
+			Stops the timer.</li>
+		</ul>
+		<h2>Public Constants</h2>
+		<ul>
+			<li><strong>TIMER</strong> : String = "timer" <br />
+			[static] The Timer.TIMER constant defines the value of the type property of a timer event object.</li>
+			<li><strong>TIMER&#95;COMPLETE</strong> : String = "timerComplete" <br />
+			[static] The Timer.TIMER_COMPLETE constant defines the value of the type property of a timerComplete event object.</li>
+		</ul>
+		<h2>Events</h2>
+		<ul>
+			<li><strong>timer</strong> <br />
+			Dispatched whenever a Timer object reaches an interval specified according to the Timer.delay property.</li>
+			<li><strong>timerComplete</strong> <br />
+			Dispatched whenever it has completed the number of requests set by Timer.repeatCount.</li>
+		</ul>
+		<div id="random">
+			<h2>EXAMPLE 1: RANDOM</h2>
+			<figure>
+				<canvas id="random1"></canvas>
+				<figcaption><pre><code>for(var i=0; i<200; i++)
+{
+	var x=MyMath.random(0, 100, false);
+	var y=MyMath.random(0, 100, false);
+}</code></pre></figcaption>
+			</figure>
+			<figure>
+				<canvas id="random2"></canvas>
+				<figcaption><pre><code>for(var i=0; i<200; i++)
+{
+	var x=MyMath.random(0, 100, false, 3);
+	var y=MyMath.random(0, 100, false, 3);
+}</code></pre></figcaption>
+			</figure>
+		</div>
+		<div id="timer">
+			<h2>EXAMPLE 2: TIMER</h2>
+			<pre><code>var timer=new Timer(1000, 10);</code></pre>
+			<figure id="timerFigure">00:00</figure>
+			<button id="timerStart">timer.start();</button>
+			<button id="timerStop">timer.stop();</button>
+			<button id="timerReset">timer.reset();</button>
+		</div>
+		<footer>author: Dane Hansen, <a href="mailto:dane@danehansen.com">dane@danehansen.com</a></footer>
+		<script src='js/danehansen/utils/MyMath.js'></script>
+		<script src='js/danehansen/events/EventDispatcher.js'></script>
+		<script src='js/danehansen/utils/Timer.js'></script>
+		<script src='js/danehansen/utils/Utils.js'></script>
+		<script>
+			(function() {
+				//random
+					var size=200;
+					var amount=1000;
+					var canvas=document.getElementById("random1");
+					canvas.width=size;
+					canvas.height=size;
+					var ctx=canvas.getContext("2d");
+					for(var i=0; i<amount; i++)
+					{
+						var x=MyMath.random(0,size,false);
+						var y=MyMath.random(0,size,false);
+						ctx.beginPath();
+						ctx.arc(x, y, 1, 0, Math.PI*2);
+						ctx.fill();
+					}
+
+					canvas=document.getElementById("random2");
+					canvas.width=size;
+					canvas.height=size;
+					ctx=canvas.getContext("2d");
+					for(i=0; i<amount; i++)
+					{
+						x=MyMath.random(0,size,false,3);
+						y=MyMath.random(0,size,false,3);
+						ctx.beginPath();
+						ctx.arc(x, y, 1, 0, Math.PI*2);
+						ctx.fill();
+					}
+
+				//timer
+					var timer=new Timer(1000, 10);
+					timer.addEventListener(Timer.TIMER, onTimer);
+					timer.addEventListener(Timer.TIMER_COMPLETE, onTimerComplete);
+
+					document.getElementById("timerStart").addEventListener("click", timer.start);
+					document.getElementById("timerStop").addEventListener("click", timer.stop);
+					document.getElementById("timerReset").addEventListener("click", reset);
+					
+					function reset()
+					{
+						timer.reset();
+						document.getElementById("timerFigure").innerHTML="00:00";
+					}
+
+					function onTimer(evt)
+					{
+						logEvent(evt);
+						var str=evt.target.currentCount().toString();
+						if(str.length==1)
+							str="0"+str;
+						document.getElementById("timerFigure").innerHTML="00:"+str;
+					}
+
+					function onTimerComplete(evt)
+					{
+						logEvent(evt);
+						document.getElementById("timerFigure").innerHTML="TIMER COMPLETE";
+					}
+
+					function logEvent(evt)
+					{
+						console.log(evt.type, evt.target.currentCount(), evt.target);
+					}
+
+				var buttons=document.querySelectorAll("button");
+				var button=buttons[1];
+				// console.log(buttons.indexOf(button));
+				console.log(Array.prototype.indexOf.call(buttons, button));
+			})();
+		</script>
+	</body>
+</html>

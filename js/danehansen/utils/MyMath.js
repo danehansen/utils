@@ -21,7 +21,6 @@ var MyMath=
 		}
 		return num/list.length;
 	},
-	
 	cover:function(content, frame)
 	{
 		content=content[0]?content[0]:content;
@@ -39,12 +38,18 @@ var MyMath=
 			if(contentRatio>frameRatio)
 			{
 				var newWidth=frameHeight*contentRatio;
-				MyUtils.css(content,{width:newWidth+"px",height:frameHeight+"px",left:-(newWidth-frameWidth)/2+"px",top:0});
+				content.style.width=newWidth+"px";
+				content.style.height=frameHeight+"px";
+				content.style.left=-(newWidth-frameWidth)/2+"px";
+				content.style.top=0;
 			}
 			else
 			{
 				var newHeight=frameWidth/contentRatio;
-				MyUtils.css(content,{width:frameWidth+"px",height:newHeight+"px",left:0,top:-(newHeight-frameHeight)/2+"px"});
+				content.style.width=frameWidth+"px";
+				content.style.height=newHeight+"px";
+				content.style.left=0;
+				content.style.top=-(newHeight-frameHeight)/2+"px";
 			}
 		}
 		else
@@ -53,7 +58,6 @@ var MyMath=
 		}
 	},
 		_COVER:{},
-
 	ease:function(targOrNum, propOrDest, destOrSpeed, speed)
 	{
 		var defaultSpeed=0.05;
@@ -62,12 +66,6 @@ var MyMath=
 		else
 			targOrNum[propOrDest]+=(destOrSpeed-targOrNum[propOrDest])*(speed||defaultSpeed);
 	},
-
-	gauss:function(limit)
-	{
-		return limit*(limit+1)/2;
-	},
-
 	indexOf:function(list, value)
 	{
 		var index=-1;
@@ -78,7 +76,6 @@ var MyMath=
 		}
 		return index;
 	},
-
 	modulo:function(num, limit)
 	{
 		while(num<0)
@@ -87,7 +84,6 @@ var MyMath=
 		}
 		return num%limit;
 	},
-
 	primes:function(limit)
 	{
 		var uints=[];
@@ -103,7 +99,6 @@ var MyMath=
 		}
 		return uints;
 	},
-
 	random:function(firstNum, secondNum, round, natural)
 	{
 		secondNum = typeof secondNum !== 'undefined' ? secondNum : 0;
@@ -134,19 +129,16 @@ var MyMath=
 			return Math.floor(secondNum+total);
 		}
 	},
-
 	randomChoice:function(list, natural)
 	{
 		list=typeof list!=='undefined'?list:[-1,1];
 		natural=typeof natural!=='undefined'?natural:1;
 		return list[MyMath.random(0,list.length-1,true,natural)];
 	},
-
 	relativePercentage:function(bottomEnd, topEnd, current)
 	{
 		 return (current-bottomEnd)/(topEnd-bottomEnd);
 	},
-
 	round:function(num, increment)
 	{
 		increment=typeof increment!=='undefined'?increment:1;
@@ -158,48 +150,30 @@ var MyMath=
 		else
 			return higher;
 	},
-
 	shuffle:function(list, duplicate)
 	{
-		duplicate=typeof duplicate!=='undefined'?duplicate:false;
-
-		var copy=list.slice(0,list.length);
-		var placeHolder=list.slice(0,0);
-		var startingLength=list.length;
-		for(var i=0; i<startingLength; i++)
-		{
-			var randomIndex=MyMath.random(0,copy.length-1,true);
-			placeHolder.push(copy[randomIndex]);
-			copy.splice(randomIndex,1);
-		}
-		for(i=0; i<startingLength; i++)
-		{
-			copy.push(placeHolder[i]);
-		}
+		var length=list.length;
 		if(duplicate)
-		{
-			return copy;
-		}
+			var shuffledArray=Array.prototype.slice.call(list, 0, length);
 		else
+			var shuffledArray=list;
+		for (var i=0; i<length; i++)
 		{
-			for(i=0; i<startingLength; i++)
-			{
-				list[i]=copy[i];
-			}
-			return list;
+			var randomIndex=Math.floor(Math.random()*(length-i));
+			var dest=shuffledArray[length-1-i];
+			shuffledArray[length-1-i]=shuffledArray[randomIndex];
+			shuffledArray[randomIndex]=dest;
 		}
+		return shuffledArray;
 	},
-
 	sortAscending:function(a,b)
 	{
 		return a-b;
 	},
-
 	sortDescending:function(a,b)
 	{
 		return b-a;
 	},
-
 	toDegrees:function(targ, offset)
 	{
 		offset = typeof offset !== 'undefined' ? offset : false;
@@ -208,7 +182,6 @@ var MyMath=
 		else
 			return -targ * 180/Math.PI;
 	},
-
 	toRadians:function(targ, offset)
 	{
 		offset = typeof offset !== 'undefined' ? offset : false;
@@ -217,7 +190,6 @@ var MyMath=
 		else
 			return -targ * Math.PI/180;
 	},
-
 	total:function(list)
 	{
 		var sum=0;
