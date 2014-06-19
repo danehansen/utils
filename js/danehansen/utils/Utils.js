@@ -3,7 +3,8 @@
 //////////////////////////////////////////////////
 //author:Dane Hansen/////////////////////////////
 //www.danehansen.com////////////////////////////
-///////////////////////////////////////////////
+//version:1.0.0////////////////////////////////
+//////////////////////////////////////////////
 
 var Utils=
 {
@@ -117,8 +118,11 @@ var Utils=
 				phantom=/phantom/i.test(ua),
 				safari=/safari/i.test(ua) && !chrome && !phantom,
 				firefox=/firefox/i.test(ua),
-				webkitVersion=/version\/(\d+(\.\d+)?)/i,
-				firefoxVersion=/firefox\/(\d+(\.\d+)?)/i;
+				android=/android/i.test(ua),
+				ios=/(ipod|iphone|ipad)/i.test(ua),
+				tablet=/tablet/i.test(ua),
+				mobile=tablet || android || ios,
+				phone=!tablet && /[^-]mobi/i.test(ua);
 			if(chrome)
 			{
 				Utils._browser=
@@ -134,7 +138,7 @@ var Utils=
 				Utils._browser=
 				{
 					name:"firefox",
-					version:parseFloat(ua.match(firefoxVersion)[1]),
+					version:parseFloat(ua.match(/firefox\/(\d+(\.\d+)?)/i)[1]),
 					webkit:false,
 					prefix:"moz"
 				}
@@ -169,12 +173,12 @@ var Utils=
 					prefix:""
 				}
 			}
-			Utils._browser.tablet=/tablet/i.test(ua);
-			Utils._browser.phone=!Utils._browser.tablet && /[^-]mobi/i.test(ua);
-			Utils._browser.mobile=Utils._browser.tablet || Utils._browser.phone;
-			Utils._browser.ios = /(ipod|iphone|ipad)/i.test(ua);
-			Utils._browser.android = /android/i.test(ua);
 		}
+		MyUtils._browser.android=android;
+		MyUtils._browser.ios=ios;
+		MyUtils._browser.tablet=tablet;
+		MyUtils._browser.mobile=mobile;
+		MyUtils._browser.phone=phone;
 		return Utils._browser;
 	},
 		_browser:null,
@@ -215,6 +219,27 @@ var Utils=
 	_isList:function(list)
 	{
 		return list.length!=undefined;
+	},
+	loadBigImages:function(parent)
+	{
+		if(!parent)
+			parent=document;
+		var elements=Array.prototype.slice.call(parent.querySelectorAll("*[data-background-image]"), 0);
+		if(parent!=document && (parent.hasAttribute("data-background-image") || parent.hasAttribute("data-src")))
+			elements.push(parent);
+		for(var i=0, iLen=elements.length; i<iLen; i++)
+		{
+			var element=elements[i];
+			element.style.backgroundImage="url("+element.getAttribute("data-background-image")+")";
+			element.removeAttribute("data-background-image");
+		}
+		elements=parent.querySelectorAll("img[data-src]");
+		for(i=0, iLen=elements.length; i<iLen; i++)
+		{
+			element=elements[i];
+			element.setAttribute("src", element.getAttribute("data-src"));
+			element.removeAttribute("data-src");
+		}
 	},
 	removeClass:function(elements,str)
 	{
