@@ -55,6 +55,15 @@ var MyText=
 	{
 		return (amount<0?"-":"")+"$"+(MyText.addCommas(Math.abs(Math.floor(amount))))+((amount%1).toFixed(2));
 	},
+	toUnicode:function(str)
+	{
+		var unicode="";
+		for(var i=0, iLen=str.length; i<iLen; i++)
+		{
+			unicode+=("&#"+str.charCodeAt(i)+";")
+		}
+		return unicode;
+	},
 	validateEmail:function(email)
 	{
 		return /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(email);

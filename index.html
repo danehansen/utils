@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
-		<title>Timer</title>
+		<title>Utils</title>
 		<style type="text/css">
 			body
 			{
@@ -47,7 +47,6 @@
 				font-size:60px;
 				margin:0;
 			}
-			
 		</style>
 	</head>
 	<body>
@@ -134,8 +133,6 @@
 			[static] Accepts either a single element, array of elements, or node list and removes an event listener simulating jQuery’s mouseLeave. </li>
 			<li><strong>touch</strong>():Boolean <br />
 			[static] Returns whether or not the browser supports touch events. </li>
-			<li><strong>toUnicode</strong>(str:String):String <br />
-			[static] Converts a string to unicode characters. </li>
 		</ul>
 		<h1>Timer</h1>
 		<p><strong>Package</strong> : com.danehansen.utils <br />
@@ -191,10 +188,12 @@
 			[static] Ensures that a number is a certain number of digits long, adding leading zeros to fill in the remainder.</li>
 			<li><strong>logObject</strong>(obj:Object, name:String) <br />
 			[static] Logs the name of the object to the console, then line by line logs out each value within the object.</li>
-			<li><strong>timerFormat</strong>(seconds:uint, useHours:Boolean = false):String <br />
+			<li><strong>timeFormat</strong>(seconds:uint, useHours:Boolean = false):String <br />
 			[static] Formats seconds into an minutes:seconds format, optionally an hours:minutes:seconds format.</li>
 			<li><strong>toDollars</strong>(value:Number):String <br />
 			[static] Formats a number as a dollar amount, such at $1,000,000.49.</li>
+			<li><strong>toUnicode</strong>(str:String):String <br />
+			[static] Converts a string to unicode characters. </li>
 			<li><strong>validateEmail</strong>(email:String):Boolean <br />
 			[static] Returns true if a valid email, false if not. Is it perfect? No. Good enough? Yes.</li>
 		</ul>

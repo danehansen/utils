@@ -22,6 +22,12 @@ var MyMath=
 		}
 		return num/list.length;
 	},
+	ceil:function(num, increment)
+	{
+		increment=typeof increment!=='undefined'?increment:1;
+		var goesInto=num/increment;
+		return increment*Math.ceil(goesInto);
+	},
 	cover:function(content, frame)
 	{
 		content=content[0]?content[0]:content;
@@ -67,6 +73,12 @@ var MyMath=
 		else
 			targOrNum[propOrDest]+=(destOrSpeed-targOrNum[propOrDest])*(speed||defaultSpeed);
 	},
+	floor:function(num, increment)
+	{
+		increment=typeof increment!=='undefined'?increment:1;
+		var goesInto=num/increment;
+		return increment*Math.floor(goesInto);
+	},
 	indexOf:function(list, value)
 	{
 		var index=-1;
@@ -79,11 +91,13 @@ var MyMath=
 	},
 	modulo:function(num, limit)
 	{
-		while(num<0)
-		{
-			num+=limit;
-		}
-		return num%limit;
+		var mod=num%limit;
+		if(num>=0)
+			return mod;
+		else if(mod<0)
+			return (mod+limit)%limit;
+		else
+			return 0;
 	},
 	primes:function(limit)
 	{
@@ -169,11 +183,11 @@ var MyMath=
 	},
 	sortAscending:function(a,b)
 	{
-		return a-b;
+		return a>b?1:a<b?-1:0;
 	},
 	sortDescending:function(a,b)
 	{
-		return b-a;
+		return a>b?-1:a<b?1:0;
 	},
 	toDegrees:function(targ, offset)
 	{

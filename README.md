@@ -87,8 +87,6 @@ A collection of commonly reused static functions.
 [static] Accepts either a single element, array of elements, or node list and removes an event listener simulating jQuery’s mouseLeave. 
 * __touch__():Boolean  
 [static] Returns whether or not the browser supports touch events. 
-* __toUnicode__(str:String):String  
-[static] Converts a string to unicode characters. 
 
 #Timer#
 
@@ -133,6 +131,26 @@ Dispatched whenever a Timer object reaches an interval specified according to th
 * __timerComplete__  
 Dispatched whenever it has completed the number of requests set by Timer.repeatCount.
 
+#Cookie#
+
+__Package__ : com.danehansen.utils  
+__Class__ : public class Cookie  
+__Inheritance__ : Cookie > Object
+
+The Cookie class contains is an interface to reading/writing browser cookies.
+
+##Public Properties##
+
+* __days__ : uint  
+[static] Default number of days used in the set function. Default vaule is 30.
+
+##Public Methods##
+
+* __get__():Object  
+[static] Returns a parsed JSON object from the “data” value of the browser cookie.
+* __set__(obj:Object, days:uint = 30)  
+[static] Accepts an object which gets stringified and set to the cookie under the property of “data”. Also accepts a parameter, which represents the number of days in the future that “expires” will be set.
+
 #MyText#
 
 __Package__ : com.danehansen.utils  
@@ -149,9 +167,11 @@ The MyText class is a collection of static methods used for processing/manipulat
 [static] Ensures that a number is a certain number of digits long, adding leading zeros to fill in the remainder.
 * __logObject__(obj:Object, name:String)  
 [static] Logs the name of the object to the console, then line by line logs out each value within the object.
-* __timerFormat__(seconds:uint, useHours:Boolean = false):String  
+* __timeFormat__(seconds:uint, useHours:Boolean = false):String  
 [static] Formats seconds into an minutes:seconds format, optionally an hours:minutes:seconds format.
 * __toDollars__(value:Number):String  
 [static] Formats a number as a dollar amount, such at $1,000,000.49.
+* __toUnicode__(str:String):String  
+[static] Converts a string to unicode characters. 
 * __validateEmail__(email:String):Boolean  
 [static] Returns true if a valid email, false if not. Is it perfect? No. Good enough? Yes.

@@ -10,7 +10,7 @@ var Utils=
 {
 	addClass:function(elements,str)
 	{
-		if(!Utils._isList)
+		if(!Utils._isList(elements))
 			elements=[elements];
 		for(var i=0, iLen=elements.length; i<iLen; i++)
 		{
@@ -22,7 +22,7 @@ var Utils=
 	},
 	addEventListener:function(elements,evt,handler)
 	{
-		if(!Utils._isList)
+		if(!Utils._isList(elements))
 			elements=[elements];
 		for(var i=0,iLen=elements.length; i<iLen; i++)
 		{
@@ -31,7 +31,7 @@ var Utils=
 	},
 	addMouseEnter:function(elements,handler)
 	{
-		if(!Utils._isList)
+		if(!Utils._isList(elements))
 			elements=[elements];
 		for(var i=0, iLen=elements.length; i<iLen; i++)
 		{
@@ -53,7 +53,7 @@ var Utils=
 		_ON_MOUSE_ENTER:{},
 	addMouseLeave:function(elements,handler)
 	{
-		if(!Utils._isList)
+		if(!Utils._isList(elements))
 			elements=[elements];
 		for(var i=0, iLen=elements.length; i<iLen; i++)
 		{
@@ -128,7 +128,7 @@ var Utils=
 				Utils._browser=
 				{
 					name:"chrome",
-					version:parseFloat(ua.match(/(?:chrome|crios)\/(\d+(\.\d+)?)/i)[1]),
+					version:parseFloat(ua.match(/(?:chrome|crios|crmo)\/(\d+(\.\d+)?)/i)[1]),
 					webkit:true,
 					prefix:"webkit"
 				}
@@ -138,7 +138,7 @@ var Utils=
 				Utils._browser=
 				{
 					name:"firefox",
-					version:parseFloat(ua.match(/firefox\/(\d+(\.\d+)?)/i)[1]),
+					version:parseFloat(ua.match(/(?:firefox|iceweasel)[ \/](\d+(\.\d+)?)/i)[1]),
 					webkit:false,
 					prefix:"moz"
 				}
@@ -147,10 +147,10 @@ var Utils=
 			{
 				Utils._browser=
 				{
-					name:"msie",
-					version:parseFloat(ua.match(/(msie |rv:)(\d+(\.\d+)?)/i)[2]),
-					webkit:false,
-					prefix:"ms"
+					name:"safari",
+					version:parseFloat(ua.match(/version\/(\d+(\.\d+)?)/i)[2]),
+					webkit:true,
+					prefix:"webkit"
 				}
 			}
 			else if(msie)
@@ -158,7 +158,7 @@ var Utils=
 				Utils._browser=
 				{
 					name:"msie",
-					version:parseFloat(ua.match(/(msie |rv:)(\d+(\.\d+)?)/i)[2]),
+					version:parseFloat(ua.match(/(?:msie |rv:)(\d+(\.\d+)?)/i)[2]),
 					webkit:false,
 					prefix:"ms"
 				}
@@ -174,11 +174,11 @@ var Utils=
 				}
 			}
 		}
-		MyUtils._browser.android=android;
-		MyUtils._browser.ios=ios;
-		MyUtils._browser.tablet=tablet;
-		MyUtils._browser.mobile=mobile;
-		MyUtils._browser.phone=phone;
+		Utils._browser.android=android;
+		Utils._browser.ios=ios;
+		Utils._browser.tablet=tablet;
+		Utils._browser.mobile=mobile;
+		Utils._browser.phone=phone;
 		return Utils._browser;
 	},
 		_browser:null,
@@ -205,9 +205,15 @@ var Utils=
 		else
 			return window.getComputedStyle(element,property);
 	},
+	getURLVars:function()
+	{
+		var vars={};
+		var parts=window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value){vars[key]=value;});
+		return vars;
+	},
 	hasClass:function(elements,str)
 	{
-		if(!Utils._isList)
+		if(!Utils._isList(elements))
 			elements=[elements];
 		for(var i=0, iLen=elements.length; i<iLen; i++)
 		{
@@ -241,9 +247,37 @@ var Utils=
 			element.removeAttribute("data-src");
 		}
 	},
+	merge:function(newObj, oldObj, copy)
+	{
+		var result=copy?oldObj.constructor():oldObj;
+		if(copy)
+		{
+			Utils.merge(oldObj, result);
+			Utils.merge(newObj, result);
+		}
+		else
+		{
+			for(var i in newObj)
+			{
+				var newProp=newObj[i];
+				var type=typeof newProp;
+				if(type=="object" && newProp!=null)
+				{
+					if(!result[i])
+						result[i]=newProp.constructor();
+					Utils.merge(newProp, result[i]);
+				}
+				else
+				{
+					result[i]=newProp;
+				}
+			}
+		}
+		return result;
+	},
 	removeClass:function(elements,str)
 	{
-		if(!Utils._isList)
+		if(!Utils._isList(elements))
 			elements=[elements];
 		for(var i=0, iLen=elements.length; i<iLen; i++)
 		{
@@ -260,7 +294,7 @@ var Utils=
 	},
 	removeEventListener:function(elements,event,handler)
 	{
-		if(!Utils._isList)
+		if(!Utils._isList(elements))
 			elements=[elements];
 		for(var i=0,iLen=elements.length; i<iLen; i++)
 		{
@@ -269,7 +303,7 @@ var Utils=
 	},
 	removeMouseEnter:function(elements)
 	{
-		if(!Utils._isList)
+		if(!Utils._isList(elements))
 			elements=[elements];
 		for(var i=0, iLen=elements.length; i<iLen; i++)
 		{
@@ -283,7 +317,7 @@ var Utils=
 	},
 	removeMouseLeave:function(elements)
 	{
-		if(!Utils._isList)
+		if(!Utils._isList(elements))
 			elements=[elements];
 		for(var i=0, iLen=elements.length; i<iLen; i++)
 		{
@@ -301,14 +335,5 @@ var Utils=
 			Utils._touch="ontouchstart" in window;
 		return Utils._touch;
 	},
-		_touch:null,
-	toUnicode:function(str)
-	{
-		var unicode="";
-		for(var i=0, iLen=str.length; i<iLen; i++)
-		{
-			unicode+=("&#"+str.charCodeAt(i)+";")
-		}
-		return unicode;
-	}
+		_touch:null
 };
