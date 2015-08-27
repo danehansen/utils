@@ -61,22 +61,32 @@ A collection of commonly reused static functions.
 [static] Accepts either a single element, array of elements, or node list and adds an event listener simulating jQuery’s mouseEnter. 
 * __addMouseLeave__(elements:*, listener:Function)  
 [static] Accepts either a single element, array of elements, or node list and adds an event listener simulating jQuery’s mouseLeave. 
-* __addPrefix__(style:String):String  
-[static] Receives a humpback notation css style name, and returns the vendor prefixed version of it. Example: Passing in “boxSizing” when in Firefox will return “mozBoxSizing”.
 * __autoAlpha__(elements:*, value:Number)  
 [static] Accepts either a single element, array of elements, or node list and sets the opacity, while also setting visibility to hidden if at 0. 
 * __bind__(functions:Array, obj:Object, ...args:*)  
 [static] Loops through an array of function names as strings, finds them on the object, and replaces them with versions which are bound to the object, with any additional parameters provided. Useful in writing object-oriented JavaScript on a class where you can with one line write `Utils.bind(["play", "stop", "resize"], this);` rather than `this.play.bind(this); this.stop.bind(this); this.resize.bind(this);`
 * __browser__():Object  
 [static] Returns an object which contains information on the browser name, version and vendor prefix; and whether the browser is webkit, phone, tablet, mobile, iOS, or Android.  
+* __bubbleSort__(array:Array, compare:function):Array  
+[static] Sorts an array and returns the results specifically using the bubble sort method.  
+* __compare__(a:Object, b:Object)  
+[static] Accepts two objects to compare similarity.  
 * __css__(elements:*, props:Object)  
 [static] Accepts either a single element, array of elements, or node list and applies all style properties contained in props to them.  
+* __duplicate__(obj:Object)  
+[static] Accepts and object and returns a duplicate.  
 * __getStyle__(element:Element, property:String):String  
 [static] First looks for the element’s style on it’s style object, if not there, looks to the window.getComputedStyle of the element.  
+* __getMatrixStyle__(element:Element, axis:String):Number  
+[static] Returns a number representing an elements transform on a specified axis.  
+* __getURLVars__():Object  
+[static] Returns an object with all current url variables.  
 * __hasClass__(elements:*, className:String):Boolean  
 [static] Accepts either a single element, array of elements, or node list and looks through all of them and returns if one of them has that class or not.  
 * __loadBigImages__(parent:Element)  
 [static] Accepts either single element, and searches within it, and including it, for elements with a “data-background-image” or “data-src” attribute and applies that to the image, then deletes the data attribute. Good for loading large images below the fold after the entire page has loaded, or loading in all the images of a slideshow only when it gets activated.  
+* __merge__(newObject:Object, oldObject:Object, copy:Boolean = false):Object  
+[static] Merges one object onto another and returns the result.  
 * __removeClass__(elements:*, className:String)  
 [static] Accepts either a single element, array of elements, or node list and removes a class from each if it exists. 
 * __removeEventListener__(elements:*, event:String, listener:Function)  

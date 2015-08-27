@@ -1,255 +1,428 @@
-"use strict";
-	
 //////////////////////////////////////////////////
-//author:Dane Hansen/////////////////////////////
-//www.danehansen.com////////////////////////////
-//version:1.0.0////////////////////////////////
+// author: Dane Hansen //////////////////////////
+// www.danehansen.com //////////////////////////
+// version: 1.0.0 /////////////////////////////
 //////////////////////////////////////////////
 
-var Utils=
-{
-	addClass:function(elements,str)
-	{
-		if(!Utils._isList(elements))
-			elements=[elements];
-		for(var i=0, iLen=elements.length; i<iLen; i++)
+var Utils = {};
+
+(function(){
+	"use strict";
+
+		function _isList(list)
 		{
-			var targ=elements[i];
-			var className=targ.className;
-			if(className.split(" ").indexOf(str)==-1)
-				targ.className=className+(className.length==0?"":" ")+str;
+			return list.length != undefined;
 		}
-	},
-	addEventListener:function(elements,evt,handler)
+
+	Utils.addClass = function(elements, str)
 	{
-		if(!Utils._isList(elements))
-			elements=[elements];
-		for(var i=0,iLen=elements.length; i<iLen; i++)
+		if(_isList(elements))
 		{
-			elements[i].addEventListener(evt,handler);
+			for(var i = 0, iLen = elements.length; i < iLen; i++)
+			{
+				_addClass(elements[i]);
+			}
 		}
-	},
-	addMouseEnter:function(elements,handler)
+		else
+		{
+			_addClass(elements);
+		}
+	}
+		function _addClass(element, str)
+		{
+			var className = element.className;
+			if(className.split(" ").indexOf(str) == -1)
+				element.className = className + (className.length == 0 ? "" : " ") + str;
+		}
+
+	Utils.addEventListener = function(elements, evt, handler)
 	{
-		if(!Utils._isList(elements))
-			elements=[elements];
-		for(var i=0, iLen=elements.length; i<iLen; i++)
+		for(var i = 0,iLen = elements.length; i < iLen; i++)
 		{
-			var element=elements[i];
-			if(!element.danehansenID)
-				element.danehansenID=String(Math.random());
-			Utils._ON_MOUSE_ENTER[element.danehansenID]={handler:handler, _handler:Utils.bind(Utils._onMouseEnter,element)};
-			element.addEventListener("mouseover",Utils._ON_MOUSE_ENTER[element.danehansenID]._handler);
+			elements[i].addEventListener(evt, handler);
 		}
-	},
-		_onMouseEnter:function(evt)
+	}
+
+	Utils.addMouseEnter = function(elements, handler)
+	{
+		if(_isList(elements))
 		{
-			var relTarg=evt.relatedTarget || evt.fromElement;
-			if(this.contains(relTarg) || relTarg==this)
+			for(var i = 0, iLen = elements.length; i < iLen; i++)
+			{
+				_addMouseEnter(elements[i], handler);
+			}
+		}
+		else
+		{
+			_addMouseEnter(elements, handler);
+		}
+	}
+		var _ON_MOUSE_ENTER_ELEMENTS = [];
+		var _ON_MOUSE_ENTER_HANDLERS = [];
+		function _addMouseEnter(element, handler)
+		{
+			var index = _ON_MOUSE_ENTER_ELEMENTS.indexOf(element);
+			if(index < 0)
+			{
+				_ON_MOUSE_ENTER_ELEMENTS.push(element);
+				index = _ON_MOUSE_ENTER_ELEMENTS.indexOf(element);
+			}
+			_ON_MOUSE_ENTER_HANDLERS[index] = {handler: handler, _handler: Utils.bind(_onMouseEnter, element)};
+			element.addEventListener("mouseover", _ON_MOUSE_ENTER_HANDLERS[index]._handler);
+		}
+		function _onMouseEnter(evt)
+		{
+			var relTarg = evt.relatedTarget || evt.fromElement;
+			if(this.contains(relTarg) || relTarg == this)
 				evt.preventDefault();
 			else
-				Utils._ON_MOUSE_ENTER[this.danehansenID].handler(evt);
-		},
-		_ON_MOUSE_ENTER:{},
-	addMouseLeave:function(elements,handler)
-	{
-		if(!Utils._isList(elements))
-			elements=[elements];
-		for(var i=0, iLen=elements.length; i<iLen; i++)
-		{
-			var element=elements[i];
-			if(!element.danehansenID)
-			element.danehansenID=String(Math.random());
-			Utils._ON_MOUSE_LEAVE[element.danehansenID]={handler:handler, _handler:Utils.bind(Utils._onMouseLeave,element)};
-			element.addEventListener("mouseout",Utils._ON_MOUSE_LEAVE[element.danehansenID]._handler);
+				_ON_MOUSE_ENTER_HANDLERS[_ON_MOUSE_ENTER_ELEMENTS.indexOf(this)].handler(evt);
 		}
-	},
-		_onMouseLeave:function(evt)
+
+	Utils.addMouseLeave = function(elements, handler)
+	{
+		if(_isList(elements))
 		{
-			var relTarg=evt.relatedTarget || evt.fromElement;
-			if(this.contains(relTarg) || relTarg==this)
+			for(var i = 0, iLen = elements.length; i < iLen; i++)
+			{
+				_addMouseLeave(elements[i], handler);
+			}
+		}
+		else
+		{
+			_addMouseLeave(elements, handler);
+		}
+	}
+		var _ON_MOUSE_LEAVE_ELEMENTS = [];
+		var _ON_MOUSE_LEAVE_HANDLERS = [];
+		function _addMouseLeave(element, handler)
+		{
+			var index = _ON_MOUSE_LEAVE_ELEMENTS.indexOf(element);
+			if(index < 0)
+			{
+				_ON_MOUSE_LEAVE_ELEMENTS.push(element);
+				index = _ON_MOUSE_LEAVE_ELEMENTS.indexOf(element);
+			}
+			_ON_MOUSE_LEAVE_HANDLERS[index] = {handler: handler, _handler: Utils.bind(_onMouseLeave, element)};
+			element.addEventListener("mouseout", _ON_MOUSE_LEAVE_HANDLERS[index]._handler);
+		}
+		function _onMouseLeave(evt)
+		{
+			var relTarg = evt.relatedTarget || evt.fromElement;
+			if(this.contains(relTarg) || relTarg == this)
 				evt.preventDefault();
 			else
-				Utils._ON_MOUSE_LEAVE[this.danehansenID].handler(evt);
-		},
-		_ON_MOUSE_LEAVE:{},
-	addPrefix:function(str)
-	{
-		if(Utils._addPrefixStorage[str])
-			return Utils._addPrefixStorage[str];
-		var prefixed=Utils.browser().prefix+str.replace(/\b[a-z]/,  Utils._captitalize);
-		Utils._addPrefixStorage[str]=prefixed;
-		return prefixed;
-	},
-		_addPrefixStorage:{},
-		_captitalize:function(str)
-		{
-			return str.toUpperCase();
-		},
-		_ADD_PREFIXES_TO:
-		{
-			transform:true,
-			transformOrigin:true,
-			transition:true,
-			userSelect:true,
-			perspective:true
-		},
-	autoAlpha:function(elements, num)
-	{
-		Utils.css(elements,{opacity:num,visibility:num==0?"hidden":"visible"});
-	},
-	bind:function(funcs, obj)
-	{
-		var args=Array.prototype.slice.call(arguments, 1);
-		for(var i=0, iLen=funcs.length; i<iLen; i++)
-		{
-			var str=funcs[i];
-			var func=obj[str];
-			obj[str]=func.bind.apply(func, args);
+				_ON_MOUSE_LEAVE_HANDLERS[_ON_MOUSE_LEAVE_ELEMENTS.indexOf(this)].handler(evt);
 		}
-	},
-	browser:function()
+
+	Utils.autoAlpha = function(elements, num)
 	{
-		if(!Utils._browser)
+		Utils.css(elements, {opacity: num, visibility: num == 0 ? "hidden" : "visible"});
+	}
+
+	Utils.bind = function(funcs, obj)
+	{
+		var args = Array.prototype.slice.call(arguments, 1);
+		for(var i = 0, iLen = funcs.length; i < iLen; i++)
 		{
-			var ua=navigator.userAgent, 
-				msie=/(msie|trident)/i.test(ua),
-				chrome=/chrome|crios/i.test(ua),
-				phantom=/phantom/i.test(ua),
-				safari=/safari/i.test(ua) && !chrome && !phantom,
-				firefox=/firefox/i.test(ua),
-				android=/android/i.test(ua),
-				ios=/(ipod|iphone|ipad)/i.test(ua),
-				tablet=/tablet/i.test(ua),
-				mobile=tablet || android || ios,
-				phone=!tablet && /[^-]mobi/i.test(ua);
+			var str = funcs[i];
+			var func = obj[str];
+			obj[str] = func.bind.apply(func, args);
+		}
+	}
+
+	Utils.browser = function()
+	{
+		if(!_browser)
+		{
+			var ua = navigator.userAgent,
+				msie = /(msie|trident)/i.test(ua),
+				chrome = /chrome|crios/i.test(ua),
+				phantom = /phantom/i.test(ua),
+				safari = /safari/i.test(ua) && !chrome && !phantom,
+				firefox = /firefox/i.test(ua),
+				android = /android/i.test(ua),
+				ios = /(ipod|iphone|ipad)/i.test(ua),
+				tablet = /tablet/i.test(ua),
+				mobile = tablet || android || ios,
+				phone = !tablet && /[^-]mobi/i.test(ua);
 			if(chrome)
 			{
-				Utils._browser=
+				_browser =
 				{
-					name:"chrome",
-					version:parseFloat(ua.match(/(?:chrome|crios|crmo)\/(\d+(\.\d+)?)/i)[1]),
-					webkit:true,
-					prefix:"webkit"
+					name: "chrome",
+					version: parseFloat(ua.match(/(?:chrome|crios|crmo)\/(\d+(\.\d+)?)/i)[1]),
+					webkit: true,
+					prefix: "webkit"
 				}
 			}
 			else if(firefox)
 			{
-				Utils._browser=
+				_browser=
 				{
-					name:"firefox",
-					version:parseFloat(ua.match(/(?:firefox|iceweasel)[ \/](\d+(\.\d+)?)/i)[1]),
-					webkit:false,
-					prefix:"moz"
+					name: "firefox",
+					version: parseFloat(ua.match(/(?:firefox|iceweasel)[ \/](\d+(\.\d+)?)/i)[1]),
+					webkit: false,
+					prefix: "moz"
 				}
 			}
 			else if(safari)
 			{
-				Utils._browser=
+				_browser=
 				{
-					name:"safari",
-					version:parseFloat(ua.match(/version\/(\d+(\.\d+)?)/i)[2]),
-					webkit:true,
-					prefix:"webkit"
+					name: "safari",
+					version: parseFloat(ua.match(/version\/(\d+(\.\d+)?)/i)[2]),
+					webkit: true,
+					prefix: "webkit"
 				}
 			}
 			else if(msie)
 			{
-				Utils._browser=
+				_browser=
 				{
-					name:"msie",
-					version:parseFloat(ua.match(/(?:msie |rv:)(\d+(\.\d+)?)/i)[2]),
-					webkit:false,
-					prefix:"ms"
+					name: "msie",
+					version: parseFloat(ua.match(/(?:msie |rv:)(\d+(\.\d+)?)/i)[2]),
+					webkit: false,
+					prefix: "ms"
 				}
 			}
 			else
 			{
-				Utils._browser=
+				_browser =
 				{
-					name:"",
-					version:0,
-					webkit:false,
-					prefix:""
+					name: "",
+					version: 0,
+					webkit: false,
+					prefix: ""
 				}
 			}
 		}
-		Utils._browser.android=android;
-		Utils._browser.ios=ios;
-		Utils._browser.tablet=tablet;
-		Utils._browser.mobile=mobile;
-		Utils._browser.phone=phone;
-		return Utils._browser;
-	},
-		_browser:null,
-	css:function(elements,props)
+		_browser.android = android;
+		_browser.ios = ios;
+		_browser.tablet = tablet;
+		_browser.mobile = mobile;
+		_browser.phone = phone;
+		return _browser;
+	}
+		var _browser;
+
+	Utils.bubbleSort = function(list, compare)
 	{
-		if(!Utils._isList(elements))
-			elements=[elements];
-		for(var i=0, iLen=elements.length; i<iLen; i++)
+		for(var i = 0, len = list.length - 1; i < len; i++)
 		{
-			var style=elements[i].style
-			for(var j in props)
+			for(var j = 0, jLen = len - i; j < jLen; j++)
 			{
-				if(Utils._ADD_PREFIXES_TO[j])
-					style[Utils.addPrefix(j)]=props[j];
-				style[j]=props[j];
+				if(compare(list[j], list[j + 1]) > 0)
+					_swap(list, j, j + 1);
 			}
 		}
-	},
-	getStyle:function(element, property)
-	{
-		var style=element[property];
-		if(style!="")
-			return style;
-		else
-			return window.getComputedStyle(element,property);
-	},
-	getURLVars:function()
-	{
-		var vars={};
-		var parts=window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value){vars[key]=value;});
-		return vars;
-	},
-	hasClass:function(elements,str)
-	{
-		if(!Utils._isList(elements))
-			elements=[elements];
-		for(var i=0, iLen=elements.length; i<iLen; i++)
+		return list;
+	}
+
+		function _swap(list, indexA, indexB)
 		{
-			if(elements[i].className.split(" ").indexOf(str)>=0)
-				return true;
+			var temp = list[indexA];
+			list[indexA] = list[indexB];
+			list[indexB] = temp;
+		}
+
+	Utils.compare = function(a, b)
+	{
+		if(a && b)
+		{
+			var props = Object.getOwnPropertyNames(a);
+			var bProps = Object.getOwnPropertyNames(b);
+			for(var i = 0, iLen = bProps.length; i < iLen; i++)
+			{
+				var prop = bProps[i];
+				if(props.indexOf(prop) < 0)
+					props.push(prop);
+			}
+			for(i = 0, iLen = props.length; i < iLen; i++)
+			{
+				prop = props[i]
+				var aVal = a[prop];
+				var bVal = b[prop];
+				var aType = typeof aVal;
+				var bType = typeof bVal;
+				if(aType == "object" && bType == "object")
+				{
+					var equal = compare(aVal, bVal);
+					if(!equal)
+						return false;
+				}
+				else if(aType != bType || aVal != bVal)
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+		else if(typeof a == typeof b && a == b)
+		{
+			return true;
 		}
 		return false;
-	},
-	_isList:function(list)
+	}
+
+	Utils.css = function(elements, props)
 	{
-		return list.length!=undefined;
-	},
-	loadBigImages:function(parent)
+		if(_isList(elements))
+		{
+			for(var i = 0, iLen = elements.length; i < iLen; i++)
+			{
+				_css(elements[i], props);
+			}
+		}
+		else
+		{
+			_css(elements, props);
+		}
+	}
+		var _propStorage = {};
+		function _css(element, props)
+		{
+			var style = element.style;
+			for(var j in props)
+			{
+				var key = _propsStorage[j];
+				var value = props[j];
+				if(key)
+				{
+					style[key] = value;
+				}
+				else
+				{
+					style[j] = value;
+					if(style[j])
+					{
+						_propsStorage[j] = j;
+					}
+					else
+					{
+						j = _addPrefix(j);
+						style[j] = value;
+						_propsStorage[j] = j;
+					}
+				}
+			}
+		}
+		function _addPrefix(str)
+		{
+			var prefixed = _propStorage[str];
+			if(prefixed)
+				return prefixed;
+			prefixed = Utils.browser().prefix + str.replace(/\b[a-z]/, _captitalize);
+			return prefixed;
+		}
+		function _captitalize(str)
+		{
+			return str.toUpperCase();
+		}
+
+	Utils.duplicate = function(obj)
+	{
+		return Utils.merge({}, obj, true);
+	}
+
+	Utils.getStyle = function(element, property)
+	{
+		var style = element.style;
+		var value = style[property];
+		if(value)
+		{
+			return value;
+		}
+		else
+		{
+			var prefixed = _addPrefix(property);
+			value = style[prefixed];
+			if(value)
+			{
+				_propStorage[property] = property;
+				return value;
+			}
+			else
+			{
+				value = window.getComputedStyle(element)[property];
+				if(value)
+				{
+					return value; 
+				}
+				else
+				{
+					_propStorage[property] = prefixed;
+					return window.getComputedStyle(element)[prefixed];
+				}
+			}
+		}
+	}
+
+	Utils.getMatrixStyle = function(element, axis)
+	{
+		var transform = Utils.getStyle(element, "transform");
+		if(axis === "x")
+			var amount = transform.split(",")[4];
+		else if(axis === "y")
+			amount = transform.split(",")[5];
+		return amount ? parseFloat(amount) : 0;
+	}
+
+	Utils.getURLVars = function()
+	{
+		var vars = {};
+		var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value){vars[key] = value;});
+		return vars;
+	}
+
+	Utils.hasClass = function(elements, str)
+	{
+		if(_isList(elements))
+		{
+			for(var i = 0, iLen = elements.length; i < iLen; i++)
+			{
+				if(_hasClass(elements[i], str))
+					return true;
+			}
+			return false;
+		}
+		else
+		{
+			return _hasClass(elements, str);
+		}
+	}
+		function _hasClass(element, str)
+		{
+			if(element.className.split(" ").indexOf(str) >= 0)
+				return true;
+			return false;
+		}
+
+	Utils.loadBigImages = function(parent)
 	{
 		if(!parent)
-			parent=document;
-		var elements=Array.prototype.slice.call(parent.querySelectorAll("*[data-background-image]"), 0);
-		if(parent!=document && (parent.hasAttribute("data-background-image") || parent.hasAttribute("data-src")))
+			parent = document;
+		var elements = Array.prototype.slice.call(parent.querySelectorAll("*[data-background-image]"), 0);
+		if(parent!= document && (parent.hasAttribute("data-background-image") || parent.hasAttribute("data-src")))
 			elements.push(parent);
-		for(var i=0, iLen=elements.length; i<iLen; i++)
+		for(var i = 0, iLen = elements.length; i < iLen; i++)
 		{
-			var element=elements[i];
-			element.style.backgroundImage="url("+element.getAttribute("data-background-image")+")";
+			var element = elements[i];
+			element.style.backgroundImage = "url(" + element.getAttribute("data-background-image") + ")";
 			element.removeAttribute("data-background-image");
 		}
-		elements=parent.querySelectorAll("img[data-src]");
-		for(i=0, iLen=elements.length; i<iLen; i++)
+		elements = parent.querySelectorAll("img[data-src]");
+		for(i = 0, iLen = elements.length; i < iLen; i++)
 		{
-			element=elements[i];
+			element = elements[i];
 			element.setAttribute("src", element.getAttribute("data-src"));
 			element.removeAttribute("data-src");
 		}
-	},
-	merge:function(newObj, oldObj, copy)
+	}
+
+	Utils.merge = function(newObj, oldObj, copy)
 	{
-		var result=copy?oldObj.constructor():oldObj;
+		var result = copy ? oldObj.constructor():oldObj;
 		if(copy)
 		{
 			Utils.merge(oldObj, result);
@@ -259,81 +432,121 @@ var Utils=
 		{
 			for(var i in newObj)
 			{
-				var newProp=newObj[i];
-				var type=typeof newProp;
-				if(type=="object" && newProp!=null)
+				var newProp = newObj[i];
+				var type = typeof newProp;
+				if(type == "object" && newProp != null)
 				{
 					if(!result[i])
-						result[i]=newProp.constructor();
-					Utils.merge(newProp, result[i]);
+						result[i] = newProp.constructor();
+					if(result[i])
+						Utils.merge(newProp, result[i]);
 				}
 				else
 				{
-					result[i]=newProp;
+					result[i] = newProp;
 				}
 			}
 		}
 		return result;
-	},
-	removeClass:function(elements,str)
+	}
+
+	Utils.removeClass = function(elements, str)
 	{
-		if(!Utils._isList(elements))
-			elements=[elements];
-		for(var i=0, iLen=elements.length; i<iLen; i++)
+		if(_isList(elements))
 		{
-			var targ=elements[i];
-			var className=targ.className;
-			var split=className.split(" ");
-			var index=split.indexOf(str);
-			if(index>=0)
+			for(var i = 0, iLen = elements.length; i < iLen; i++)
 			{
-				split.splice(index,1);
-				targ.className=split.join(" ");
+				_removeClass(elements[i], str);
 			}
 		}
-	},
-	removeEventListener:function(elements,event,handler)
+		else
+		{
+			_removeClass(elements, str);
+		}
+	}
+		function _removeClass(element, str)
+		{
+			var className = element.className;
+			var split = className.split(" ");
+			var index = split.indexOf(str);
+			if(index >= 0)
+			{
+				split.splice(index,1);
+				element.className = split.join(" ");
+			}
+		}
+
+	Utils.removeEventListener = function(elements, event, handler)
 	{
-		if(!Utils._isList(elements))
-			elements=[elements];
-		for(var i=0,iLen=elements.length; i<iLen; i++)
+		for(var i = 0,iLen = elements.length; i < iLen; i++)
 		{
 			elements[i].removeEventListener(event,handler);
 		}
-	},
-	removeMouseEnter:function(elements)
+	}
+
+	Utils.removeMouseEnter = function(elements)
 	{
-		if(!Utils._isList(elements))
-			elements=[elements];
-		for(var i=0, iLen=elements.length; i<iLen; i++)
+		if(_isList(elements))
 		{
-			var element=elements[i];
-			if(Utils._ON_MOUSE_ENTER[element.danehansenID])
+			for(var i = 0, iLen = elements.length; i < iLen; i++)
 			{
-				element.removeEventListener("mouseover",Utils._ON_MOUSE_ENTER[element.danehansenID]._handler);
-				delete Utils._ON_MOUSE_ENTER[element.danehansenID];
+				_removeMouseEnter(elements[i]);
 			}
 		}
-	},
-	removeMouseLeave:function(elements)
-	{
-		if(!Utils._isList(elements))
-			elements=[elements];
-		for(var i=0, iLen=elements.length; i<iLen; i++)
+		else
 		{
-			var element=elements[i];
-			if(Utils._ON_MOUSE_LEAVE[element.danehansenID])
+			_removeMouseEnter(elements);
+		}
+	}
+		function _removeMouseEnter(element)
+		{
+			var index = _ON_MOUSE_ENTER_ELEMENTS.indexOf(element)
+			if(index >= 0)
 			{
-				element.removeEventListener("mouseout",Utils._ON_MOUSE_LEAVE[element.danehansenID]._handler);
-				delete Utils._ON_MOUSE_LEAVE[element.danehansenID];
+				element.removeEventListener("mouseover", _ON_MOUSE_ENTER_HANDLERS[index]._handler);
+				_ON_MOUSE_ENTER_ELEMENTS.splice(index, 1);
+				_ON_MOUSE_ENTER_HANDLERS.splice(index, 1);
 			}
 		}
-	},
-	touch:function()
+
+	Utils.removeMouseLeave = function(elements)
 	{
-		if(Utils._touch==null)
-			Utils._touch="ontouchstart" in window;
-		return Utils._touch;
-	},
-		_touch:null
-};
+		if(_isList(elements))
+		{
+			for(var i = 0, iLen = elements.length; i < iLen; i++)
+			{
+				_removeMouseLeave(elements[i]);
+			}
+		}
+		else
+		{
+			_removeMouseLeave(elements);
+		}
+	}
+		function _removeMouseLeave(element)
+		{
+			var index = _ON_MOUSE_LEAVE_ELEMENTS.indexOf(element)
+			if(index >= 0)
+			{
+				element.removeEventListener("mouseout", _ON_MOUSE_LEAVE_HANDLERS[index]._handler);
+				_ON_MOUSE_LEAVE_ELEMENTS.splice(index, 1);
+				_ON_MOUSE_LEAVE_HANDLERS.splice(index, 1);
+			}
+		}
+
+	Utils.touch = function()
+	{
+		if(typeof _touch == "boolean")
+			return _touch;
+		if(typeof window != "undefined")
+		{
+			_touch = "ontouchstart" in window;
+				return _touch;
+		}
+		return false;
+	}
+		var _touch;
+
+	if(typeof module != "undefined")
+		module.exports = Utils;
+})();
