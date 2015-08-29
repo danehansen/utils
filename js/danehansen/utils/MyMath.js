@@ -203,18 +203,20 @@ var MyMath = {};
 
 	MyMath.primes = function(limit)
 	{
-		var uints = [];
-		for(var i = 2; i <= limit; i++)
-			uints.push(i);
-		for(i = 2; i <= limit; i++)
+		var sieve = [];
+		var primes = [];
+		for(var i = 2; i <= limit; ++i)
 		{
-			for(var j = 0; j < uints.length; j++)
+			if(!sieve[i])
 			{
-				if(uints[j] % i == 0 && uints[j] != i)
-					uints.splice(j, 1);
+				primes.push(i);
+				for (var j = i * 2; j <= limit; j += i)
+				{
+					sieve[j] = true;
+				}
 			}
 		}
-		return uints;
+		return primes.length;
 	}
 
 	MyMath.random = function(firstNum, secondNum, round, natural)
