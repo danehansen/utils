@@ -9,7 +9,7 @@
 
 	//requires danehansen/events/EventDispatcher.js
 	if(typeof module != "undefined")
-		var EventDispatcher = require("../events/EventDispatcher");
+		EventDispatcher = require("../events/EventDispatcher");
 
 	function Timer(delay, repeatCount)
 	{

@@ -51,8 +51,6 @@ var AJAX = {
 			headers["Content-Type"] = "application/json";
 			headers["Accept"] = "application/json";
 			headers["Access-Control-Allow-Origin"] = "*";
-			if(State.user() && State.user().token)
-				headers["Authorization"] = "Token " + State.user().token;
 		}
 		for(var header in headers)
 		{

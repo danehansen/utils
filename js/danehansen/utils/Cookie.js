@@ -12,7 +12,7 @@ var Cookie = {};
 
 	//requires danehansen/utils/Utils.js
 	if(typeof module != "undefined")
-		var Utils = require("./Utils");
+		Utils = require("./Utils");
 
 	var _DAYS = 30;
 
@@ -39,9 +39,9 @@ var Cookie = {};
 			return {};
 	}
 
-	Cookie.merge = function(obj)
+	Cookie.merge = function(obj, days)
 	{
-		_set(Utils.merge(obj, Cookie.get()));
+		_set(Utils.merge(obj, Cookie.get()), days);
 	}
 
 	function _set(obj, days)

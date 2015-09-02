@@ -15,6 +15,87 @@ var MyText = {};
 		return str.split( /(? = (?:\d{3}) + (?:\.|$))/g ).join( "," );
 	}
 
+	MyText.formatCard = function(str, secure)
+	{
+		str.replace(/\D/g, "");
+		if(secure)
+		{
+			if(typeof secure != "string")
+				secure = "*";
+			str = str.slice(0, str.length - 4).replace(/\d/g, secure) + str.slice(str.length - 4, str.length);
+		}
+		if(str.length == 15)
+		{
+			return [str.slice(0, 4), str.slice(4, 10), str.slice(10, 15)].join(" ");
+		}
+		else
+		{
+			if(str.length == 16)
+				return [str.slice(0, 4), str.slice(4, 8), str.slice(8, 12), str.slice(12, 16)].join(" ");
+			else
+				return str;
+		}
+	}
+
+	MyText.formatExpiration = function(mmyy)
+	{
+		var obj = MyText.validateExpiration(mmyy);
+		return obj.month + "/" + obj.year % 100;
+	}
+
+	MyText.formatPhone = function(str, deliminator)
+	{
+		str.replace(/\D/g, "");
+		var length = str.length;
+		if(length == 11 || length == 10)
+		{
+			var countryCode = str.slice(length - 11, length - 10);
+			var areaCode = str.slice(length - 10, length - 7);
+			var prefix = str.slice(length - 7, length - 4);
+			var line = str.slice(length - 4, length);
+			if(deliminator)
+			{
+				var array = [areaCode, prefix, line];
+				if(countryCode)
+					array.unshift(countryCode);
+				return array.join(deliminator);
+			}
+			else
+			{
+				var formatted = "(" + areaCode + ") " + prefix + "-" + line;
+				if(countryCode)
+					formatted = countryCode + " " + formatted;
+				return formatted;
+			}
+		}
+		else
+		{
+			return str;
+		}
+	}
+
+	MyText.formatTime = function(seconds, useHours)
+	{
+		if(!seconds)
+			seconds = 0;
+		var hours = Math.floor(seconds / 3600);
+		var minutes = Math.floor(seconds / 60);
+		seconds = Math.floor(seconds);
+		if(useHours)
+			return MyText.leadingZeros(hours, 2) + ": " + MyText.leadingZeros(minutes % 60, 2) + ": " + MyText.leadingZeros(seconds % 60, 2);
+		else
+			return MyText.leadingZeros(minutes, 2) + ": " + MyText.leadingZeros(seconds % 60, 2);
+	}
+
+	MyText.formatZip = function(str)
+	{
+		str.replace(/\D/g, "");
+		if(str.length == 9)
+			return str.slice(0, 5) + "-" + str.slice(5, 9);
+		else
+			return str;
+	}
+
 	MyText.leadingZeros = function(num, length)
 	{
 		return (num / Math.pow(10, length - 1)).toFixed(length - 1).split(".").join("");
@@ -31,19 +112,6 @@ var MyText = {};
 		}
 		console.log("};");
 		console.log("");
-	}
-
-	MyText.timeFormat = function(seconds, useHours)
-	{
-		if(!seconds)
-			seconds = 0;
-		var hours = Math.floor(seconds / 3600);
-		var minutes = Math.floor(seconds / 60);
-		seconds = Math.floor(seconds);
-		if(useHours)
-			return MyText.leadingZeros(hours, 2) + ": " + MyText.leadingZeros(minutes % 60, 2) + ": " + MyText.leadingZeros(seconds % 60, 2);
-		else
-			return MyText.leadingZeros(minutes, 2) + ": " + MyText.leadingZeros(seconds % 60, 2);
 	}
 
 	MyText.toDollars = function(amount, cents)
@@ -103,68 +171,6 @@ var MyText = {};
 		return false;
 	}
 
-	MyText.formatZip = function(str)
-	{
-		str.replace(/\D/g, "");
-		if(str.length == 9)
-			return str.slice(0, 5) + "-" + str.slice(5, 9);
-		else
-			return str;
-	}
-
-	MyText.formatCard = function(str, secure)
-	{
-		str.replace(/\D/g, "");
-		if(secure)
-		{
-			if(typeof secure != "string")
-				secure = "*";
-			str = str.slice(0, str.length - 4).replace(/\d/g, secure) + str.slice(str.length - 4, str.length);
-		}
-		if(str.length == 15)
-		{
-			return [str.slice(0, 4), str.slice(4, 10), str.slice(10, 15)].join(" ");
-		}
-		else
-		{
-			if(str.length == 16)
-				return [str.slice(0, 4), str.slice(4, 8), str.slice(8, 12), str.slice(12, 16)].join(" ");
-			else
-				return str;
-		}
-	}
-
-	MyText.formatPhone = function(str, deliminator)
-	{
-		str.replace(/\D/g, "");
-		var length = str.length;
-		if(length == 11 || length == 10)
-		{
-			var countryCode = str.slice(length - 11, length - 10);
-			var areaCode = str.slice(length - 10, length - 7);
-			var prefix = str.slice(length - 7, length - 4);
-			var line = str.slice(length - 4, length);
-			if(deliminator)
-			{
-				var array = [areaCode, prefix, line];
-				if(countryCode)
-					array.unshift(countryCode);
-				return array.join(deliminator);
-			}
-			else
-			{
-				var formatted = "(" + areaCode + ") " + prefix + "-" + line;
-				if(countryCode)
-					formatted = countryCode + " " + formatted;
-				return formatted;
-			}
-		}
-		else
-		{
-			return str;
-		}
-	}
-
 	MyText.validateExpiration = function(mmyy)
 	{
 		mmyy = mmyy.replace(/\D/g, "");
@@ -184,12 +190,6 @@ var MyText = {};
 			return {month: mm, year: yy};
 		else
 			return false;
-	}
-
-	MyText.formatExpiration = function(mmyy)
-	{
-		var obj = MyText.validateExpiration(mmyy);
-		return obj.month + "/" + obj.year % 100;
 	}
 
 	MyText.validateEmail = function(email)

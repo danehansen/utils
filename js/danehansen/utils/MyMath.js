@@ -9,10 +9,6 @@ var MyMath = {};
 (function(){
 	"use strict";
 
-	//requires danehansen/geom/Point.js
-	if(typeof module != "undefined")
-		var Point = require("../geom/Point");
-
 	MyMath.average = function()
 	{
 		if(typeof arguments[0] == "number")
@@ -109,32 +105,6 @@ var MyMath = {};
 			return MyMath.euclid(intB, intA % intB);
 	}
 
-	var _VELOCITY_VICTIMS = [];
-	MyMath.velocityEase = function(targ, prop, dest, speed, decay)
-	{
-		if(typeof speed != "number")
-			speed = 0.5;
-		if(typeof decay != "number")
-			decay = 0.9;
-		for(var i = 0, iLen = _VELOCITY_VICTIMS.length; i < iLen; i++)
-		{
-			var item = _VELOCITY_VICTIMS[i];
-			if(item.targ == targ)
-				break;
-		}
-		if(!item)
-		{
-			item = {targ: targ};
-			_VELOCITY_VICTIMS.push(item);
-		}
-		if(typeof item[prop] != "number")
-			item[prop] = 0;
-		item[prop] += (dest - targ[prop]) * speed;
-		item[prop] *= decay;
-		targ[prop] += item[prop];
-		return item[prop];
-	}
-
 	MyMath.floor = function(num, increment)
 	{
 		increment = typeof increment !== "undefined" ? increment : 1;
@@ -216,7 +186,7 @@ var MyMath = {};
 				}
 			}
 		}
-		return primes.length;
+		return primes;
 	}
 
 	MyMath.random = function(firstNum, secondNum, round, natural)
@@ -255,18 +225,6 @@ var MyMath = {};
 		list = typeof list !== "undefined" ? list : [-1, 1];
 		natural = typeof natural !== "undefined" ? natural : 1;
 		return list[MyMath.random(0, list.length - 1, true, natural)];
-	}
-
-	MyMath.randomPointInCircle = function(center, radius)
-	{
-		var random = {};
-		do
-		{
-			random.x = MyMath.random(center.x - radius, center.x + radius);
-			random.y = MyMath.random(center.y - radius, center.y + radius);
-		}
-		while(Point.distance(random, center) > radius)
-		return random;
 	}
 
 	MyMath.relativePercentage = function(bottomEnd, topEnd, current)
@@ -353,6 +311,32 @@ var MyMath = {};
 			}
 		}
 		return sum;
+	}
+
+		var _VELOCITY_VICTIMS = [];
+	MyMath.velocityEase = function(targ, prop, dest, speed, decay)
+	{
+		if(typeof speed != "number")
+			speed = 0.5;
+		if(typeof decay != "number")
+			decay = 0.9;
+		for(var i = 0, iLen = _VELOCITY_VICTIMS.length; i < iLen; i++)
+		{
+			var item = _VELOCITY_VICTIMS[i];
+			if(item.targ == targ)
+				break;
+		}
+		if(!item)
+		{
+			item = {targ: targ};
+			_VELOCITY_VICTIMS.push(item);
+		}
+		if(typeof item[prop] != "number")
+			item[prop] = 0;
+		item[prop] += (dest - targ[prop]) * speed;
+		item[prop] *= decay;
+		targ[prop] += item[prop];
+		return item[prop];
 	}
 
 	if(typeof module != "undefined")
