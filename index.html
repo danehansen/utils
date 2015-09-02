@@ -50,6 +50,99 @@
 		</style>
 	</head>
 	<body>
+		<h1>AJAX</h1>
+		<p><strong>Package</strong> : com.danehansen.utils <br />
+		<strong>Class</strong> : public class AJAX <br />
+		<strong>Inheritance</strong> : AJAX > Object</p>
+		<p>AJAX class contains shortcuts to making AJAX requests.</p>
+		<h2>Public Constants</h2>
+		<ul>
+			<li><strong>SUCCESS_EVENT</strong> : Object <br />
+		[static] A mockup of a successful event to be used for testing purposes.</li>
+		</ul>
+		<h2>Public Methods</h2>
+		<ul>
+			<li><strong>delete</strong>(url:String, listener:Function):XMLHttpRequest <br />
+			[static] Makes a DELETE request to a given url and calls a given listener when finished.</li>
+			<li><strong>get</strong>(url:String, listener:Function, data:Object):XMLHttpRequest <br />
+			[static] Makes a GET request to a given url with the given data and calls a given listener when finished.</li>
+			<li><strong>post</strong>(url:String, listener:Function, data:Object = null, header:Object = null):XMLHttpRequest <br />
+			[static] Makes a POST request with optional headers to a given url optionally with the given data and calls a given listener when finished.</li>
+			<li><strong>put</strong>(url:String, listener:Function, data:Object = null, header:Object = null):XMLHttpRequest <br />
+			[static] Makes a PUT request with optional headers to a given url optionally with the given data and calls a given listener when finished.</li>
+			<li><strong>querify</strong>(obj:Object, url:String):String <br />
+			[static] Returns a url with url parameters made from a provided object.</li>
+		</ul>
+		<h1>Color</h1>
+		<p><strong>Package</strong> : com.danehansen.utils <br />
+		<strong>Class</strong> : public class Color <br />
+		<strong>Inheritance</strong> : Color > Object</p>
+		<p>Color class contains static methods to help manipulate colors.</p>
+		<h2>Public Methods</h2>
+		<ul>
+			<li><strong>red</strong>(color:uint):uint <br />
+			[static] Returns the red portion of a uint.</li>
+			<li><strong>green</strong>(color:uint):uint <br />
+			[static] Returns the green portion of a uint.</li>
+			<li><strong>blue</strong>(color:uint):uint <br />
+			[static] Returns the blue portion of a uint.</li>
+			<li><strong>rgbToHex</strong>(rgb:String):String <br />
+			[static] Converts a "rgb(X,X,X)" string into a "#XXXXXX" string.</li>
+			<li><strong>rgbToUint</strong>(r:uint, g:uint, b:uint):uint <br />
+			[static] Converts 3 uints into a single uint.</li>
+			<li><strong>uintToRGB</strong>(color:uint):String <br />
+			[static] Converts a uint into a "rgb(X,X,X)" string.</li>
+			<li><strong>uintToRGBA</strong>(color:uint, alpha:Number = 1):String <br />
+			[static] Converts a uint and alpha into a "rgba(X,X,X,X)" string.</li>
+		</ul>
+		<h1>Cookie</h1>
+		<p><strong>Package</strong> : com.danehansen.utils <br />
+		<strong>Class</strong> : public class Cookie <br />
+		<strong>Inheritance</strong> : Cookie > Object</p>
+		<p>The Cookie class contains is an interface to reading/writing browser cookies.</p>
+		<h2>Public Methods</h2>
+		<ul>
+			<li><strong>clear</strong>() <br />
+			[static] Clears the cookie‘s "data" value.</li>
+			<li><strong>date</strong>():Date <br />
+			[static] Returns the cookie’s date value.</li>
+			<li><strong>get</strong>():Object <br />
+			[static] Returns a parsed JSON object from the “data” value of the browser cookie.</li>
+			<li><strong>merge</strong>(obj:Object, days:uint = 30) <br />
+			[static] Accepts an object which gets stringified and merged with the cookie under the property of “data”. Also accepts a parameter, which represents the number of days in the future that “expires” will be set.</li>
+		</ul>
+		<h1>Heap</h1>
+		<p><strong>Package</strong> : com.danehansen.utils <br />
+		<strong>Class</strong> : public class Heap <br />
+		<strong>Inheritance</strong> : Heap > Object</p>
+		<p>The Heap class creates an instance to be used in heap sorting.</p>
+		<h2>Public Constants</h2>
+		<ul>
+			<li><strong>MAX</strong> : Function <br />
+			[static] A comparison function that sorts by max value.</li>
+			<li><strong>MIN</strong> : Function <br />
+			[static] A comparison function that sorts by min value.</li>
+		</ul>
+		<h2>Public Properties</h2>
+		<ul>
+			<li><strong>array</strong> : Array <br />
+			[read-only] The current array of the heap.</li>
+			<li><strong>length</strong> : uint <br />
+			[read-only] The current size of the heap.</li>
+		</ul>
+		<h2>Public Methods</h2>
+		<ul>
+			<li><strong>Heap</strong>(sort:Function = Heap.MAX) <br />
+			Constructs a new Heap object with an optional sort function.</li>
+			<li><strong>sort</strong>() <br />
+			Sorts down the heap stack from the top.</li>
+			<li><strong>push</strong>() <br />
+			Adds an item to the heap and sorts the heap up from the bottom.</li>
+			<li><strong>shift</strong>():Object <br />
+			Removes the topmost item of the heap, sorts the heap from the top down, and then returns the item.</li>
+			<li><strong>log</strong>() <br />
+			Logs the heap to the console.</li>
+		</ul>
 		<h1>MyMath</h1>
 		<p><strong>Package</strong> : com.danehansen.utils <br />
 		<strong>Class</strong> : public class MyMath <br />
@@ -59,14 +152,26 @@
 		<ul>
 			<li><strong>average</strong>(... args):Number <br />
 			[static] Accepts either an unlimited quantity of numbers or an array of numbers and returns the total. </li>
+			<li><strong>ceil</strong>(num:Number, increment:Number = 1):Number <br />
+			[static] Rounds a number up to the nearest increment. </li>
+			<li><strong>circleIntersection</strong>(centerA:Point, radiusA:Number, centerB:Point, radiusB:Number):Number <br />
+			[static] Returns an array of the two points at which 2 circles intersect, if they intersect. </li>
 			<li><strong>cover</strong>(content:Element, frame:Element) <br />
 			[static] Takes content element and fills the entirety of the frame element to scale. This would be likened to filling an element with a background image where with the css property <code>background-size:cover</code> but where that is not possible, Such as filling an element with a video element. It is assumed that the content will have <code>position:absolute</code> and the frame will have at least some sort of positioning applied, and probably also <code>overflow:hidden</code>. To scale the content, the original dimentions of the item before manipulation are recorded and then referred to each time it is resized. For example, if you are filling the entire background of a page with a bleeding video, the body would have <code>position:relative</code> and <code>overflow:hidden</code> applied, and the video would have <code>position:absolute</code> as well as <code>width:1280px</code> and <code>height:720px</code>.</li>
 			<li><strong>ease</strong>(target:Object, key:String, destination:Number, speed:Number = 0.05) <br />
 			[static] Brings the object’s provided property (target[key]) towards the destination by a factor of speed. Great for making a display object follow a mouse cursor or some other moving target.</li>
 			<li><strong>ease</strong>(num:Number, destination:Number, speed:Number = 0.05):Number <br />
 			[static] Same as above, but returns the eased amount rather than actually changing an object’s property.</li>
+			<li><strong>euclid</strong>(a:int, b:int):int <br />
+			[static] Returns the greatest common divisor of two integers.</li>
+			<li><strong>floor</strong>(num:Number, increment:Number = 1):Number <br />
+			[static] Rounds a number down to the nearest increment. </li>
 			<li><strong>indexOf</strong>(list:<em>, value:</em>):int <br />
 			[static] Similar to Array’s built in indexOf method, but can pass in a NodeList or anything with numeric keys and a length property to find the index. Returns -1 if not found.</li>
+			<li><strong>intLength</strong>(num:uint):uint <br />
+			[static] Returns the number of decimals in an integer.</li>
+			<li><strong>luhn</strong>(num:uint):Boolean <br />
+			[static] Returns whether or not an integer meets the Luhn validation.</li>
 			<li><strong>modulo</strong>(num:Number, limit:Number):Number <br />
 			[static] Similar to the modulo (%) operator, but rather than mirroring at 0, it continues past 0. For example, -1%4=-1, but modulo(-1, 4)=3. Great for when you decrement a value below 0 and need the functionality to wrap, like an image gallery.</li>
 			<li><strong>primes</strong>(limit:Number):Array <br />
@@ -85,54 +190,54 @@
 			[static] Returns the difference between the a and b, meant to pass into the Array.sort method as an alternate to the default alphabetical.</li>
 			<li><strong>sortDescending</strong>(a:Number, b:Number):Number <br />
 			[static] Returns the reversed difference between a and b, meant to pass into the Array.sort method as an alternate to the default alphabetical.</li>
+			<li><strong>splitUint</strong>(num:int):Array <br />
+			[static] Returns an array representing each digit of an integer.</li>
 			<li><strong>toDegrees</strong>(rad:Number, offset:Boolean = false):Number <br />
 			[static] Converts an angle in radians to degrees. By default, just returns an angle of the same amount measured in degrees, but when set to true will also account for offsetting by 1/4 turn.</li>
 			<li><strong>toRadians</strong>(deg:Number, offset:Boolean = false):Number <br />
 			[static] Converts an angle in degrees to radians. By default, just returns an angle of the same amount measured in radians, but when set to true will also account for offsetting by 1/4 turn. </li>
 			<li><strong>total</strong>(list:*):Number <br />
 			[static] Calculates the total in an array or list of values. Booleans will also be totaled as 1s or 0s.</li>
+			<li><strong>velocityEase</strong>(target:Object, key:String, destination:Number, speed:Number = 0.05, decay:Number = 0.9) <br />
+			[static] Brings the object’s provided property (target[key]) towards the destination by a factor of speed but with a velocity which decays at the decay speed. Great for making an elasticy ease.</li>
 		</ul>
-		<h1>Utils</h1>
+		<h1>MyText</h1>
 		<p><strong>Package</strong> : com.danehansen.utils <br />
-		<strong>Class</strong> : public class Utils <br />
-		<strong>Inheritance</strong> : Utils > Object</p>
-		<p>A collection of commonly reused static functions.</p>
+		<strong>Class</strong> : public class MyText <br />
+		<strong>Inheritance</strong> : MyText > Object</p>
+		<p>The MyText class is a collection of static methods used for processing/manipulating strings.</p>
 		<h2>Public Methods</h2>
 		<ul>
-			<li><strong>addClass</strong>(elements:*, className:String) <br />
-			[static] Accepts either a single element, array of elements, or node list and applies a class to each if it does not already exist. </li>
-			<li><strong>addEventListener</strong>(elements:*, event:String, listener:Function) <br />
-			[static] Accepts either a single element, array of elements, or node list and adds an event listener to each.</li>
-			<li><strong>addMouseEnter</strong>(elements:*, listener:Function) <br />
-			[static] Accepts either a single element, array of elements, or node list and adds an event listener simulating jQuery’s mouseEnter. </li>
-			<li><strong>addMouseLeave</strong>(elements:*, listener:Function) <br />
-			[static] Accepts either a single element, array of elements, or node list and adds an event listener simulating jQuery’s mouseLeave. </li>
-			<li><strong>addPrefix</strong>(style:String):String <br />
-			[static] Receives a humpback notation css style name, and returns the vendor prefixed version of it. Example: Passing in “boxSizing” when in Firefox will return “mozBoxSizing”.</li>
-			<li><strong>autoAlpha</strong>(elements:*, value:Number) <br />
-			[static] Accepts either a single element, array of elements, or node list and sets the opacity, while also setting visibility to hidden if at 0. </li>
-			<li><strong>bind</strong>(functions:Array, obj:Object, ...args:*) <br />
-			[static] Loops through an array of function names as strings, finds them on the object, and replaces them with versions which are bound to the object, with any additional parameters provided. Useful in writing object-oriented JavaScript on a class where you can with one line write <code>Utils.bind(["play", "stop", "resize"], this);</code> rather than <code>this.play.bind(this); this.stop.bind(this); this.resize.bind(this);</code></li>
-			<li><strong>browser</strong>():Object <br />
-			[static] Returns an object which contains information on the browser name, version and vendor prefix; and whether the browser is webkit, phone, tablet, mobile, iOS, or Android.  </li>
-			<li><strong>css</strong>(elements:*, props:Object) <br />
-			[static] Accepts either a single element, array of elements, or node list and applies all style properties contained in props to them.  </li>
-			<li><strong>getStyle</strong>(element:Element, property:String):String <br />
-			[static] First looks for the element’s style on it’s style object, if not there, looks to the window.getComputedStyle of the element.  </li>
-			<li><strong>hasClass</strong>(elements:*, className:String):Boolean <br />
-			[static] Accepts either a single element, array of elements, or node list and looks through all of them and returns if one of them has that class or not.  </li>
-			<li><strong>loadBigImages</strong>(parent:Element) <br />
-			[static] Accepts either single element, and searches within it, and including it, for elements with a “data-background-image” or “data-src” attribute and applies that to the image, then deletes the data attribute. Good for loading large images below the fold after the entire page has loaded, or loading in all the images of a slideshow only when it gets activated.  </li>
-			<li><strong>removeClass</strong>(elements:*, className:String) <br />
-			[static] Accepts either a single element, array of elements, or node list and removes a class from each if it exists. </li>
-			<li><strong>removeEventListener</strong>(elements:*, event:String, listener:Function) <br />
-			[static] Accepts either a single element, array of elements, or node list and removes an event listener from each.</li>
-			<li><strong>removeMouseEnter</strong>(elements:*, listener:Function) <br />
-			[static] Accepts either a single element, array of elements, or node list and removes an event listener simulating jQuery’s mouseEnter. </li>
-			<li><strong>removeMouseLeave</strong>(elements:*, listener:Function) <br />
-			[static] Accepts either a single element, array of elements, or node list and removes an event listener simulating jQuery’s mouseLeave. </li>
-			<li><strong>touch</strong>():Boolean <br />
-			[static] Returns whether or not the browser supports touch events. </li>
+			<li><strong>addCommas</strong>(value:Number):String <br />
+			[static] Rounds and formats numbers to have a comma every 3 places.</li>
+			<li><strong>leadingZeros</strong>(value:Number, length:uint):String <br />
+			[static] Ensures that a number is a certain number of digits long, adding leading zeros to fill in the remainder.</li>
+			<li><strong>formatCard</strong>(num:String):String <br />
+			[static] Returns a formatted credit card number code like XXXX XXXX XXXX XXXX or XXXX XXXXXX XXXXX and optionally will turn all but the last 4 digits to asterisks.</li>
+			<li><strong>formatExpiration</strong>(date:String):String <br />
+			[static] Returns a formatted expiration date like XX/XX or XX/XXXX.</li>
+			<li><strong>formatPhone</strong>(num:String):String <br />
+			[static] Returns a formatted phone number like X (XXX) XXX-XXXX or if an optional deliminator is provided, like X-XXX-XXX-XXXX.</li>
+			<li><strong>formatTime</strong>(seconds:uint, useHours:Boolean = false):String <br />
+			[static] Formats seconds into an minutes:seconds format, optionally an hours:minutes:seconds format.</li>
+			<li><strong>formatZip</strong>(num:String):String <br />
+			[static] Returns a formatted zip code like XXXXX-XXXX.</li>
+			<li><strong>leadingZeros</strong>(num:int, length:uint):String <br />
+			[static] Returns a string representation of the integer with leading zeros equaling to a given length.</li>
+			<li><strong>logObject</strong>(obj:Object, name:String) <br />
+			[static] Logs the name of the object to the console, then line by line logs out each value within the object.</li>
+			<li><strong>toDollars</strong>(value:Number):String <br />
+			[static] Formats a number as a dollar amount, such at $1,000,000.49.</li>
+			<li><strong>toTitleCase</strong>(str:String):String <br />
+			[static] Formats a string in title case.</li>
+			<li><strong>toUnicode</strong>(str:String):String <br />
+			[static] Converts a string to unicode characters. </li>
+			<li><strong>validateCard</strong>(num:String):String <br />
+			[static] Returns the name of the the credit card if valid.</li>
+			<li><strong>validateEmail</strong>(email:String):Boolean <br />
+			[static] Returns true if a valid email, false if not. Is it perfect? No. Good enough? Yes.</li>
+			<li><strong>validateExpiration</strong>(date:String):Object <br />
+			[static] Returns an object containing the month and year of the date if it is a valid experiation date in the future.</li>
 		</ul>
 		<h1>Timer</h1>
 		<p><strong>Package</strong> : com.danehansen.utils <br />
@@ -165,37 +270,65 @@
 			[static] The Timer.TIMER constant defines the value of the type property of a timer event object.</li>
 			<li><strong>TIMER&#95;COMPLETE</strong> : String = "timerComplete" <br />
 			[static] The Timer.TIMER_COMPLETE constant defines the value of the type property of a timerComplete event object.</li>
-			</ul>
-
-			<h2>Events</h2>
-
-			<ul>
+		</ul>
+		<h2>Events</h2>
+		<ul>
 			<li><strong>timer</strong> <br />
 			Dispatched whenever a Timer object reaches an interval specified according to the Timer.delay property.</li>
 			<li><strong>timerComplete</strong> <br />
 			Dispatched whenever it has completed the number of requests set by Timer.repeatCount.</li>
 		</ul>
-		<h1>MyText</h1>
+		<h1>Utils</h1>
 		<p><strong>Package</strong> : com.danehansen.utils <br />
-		<strong>Class</strong> : public class MyText <br />
-		<strong>Inheritance</strong> : MyText > Object</p>
-		<p>The MyText class is a collection of static methods used for processing/manipulating strings.</p>
+		<strong>Class</strong> : public class Utils <br />
+		<strong>Inheritance</strong> : Utils > Object</p>
+		<p>A collection of commonly reused static functions.</p>
 		<h2>Public Methods</h2>
 		<ul>
-			<li><strong>addCommas</strong>(value:Number):String <br />
-			[static] Rounds and formats numbers to have a comma every 3 places.</li>
-			<li><strong>leadingZeros</strong>(value:Number, length:uint):String <br />
-			[static] Ensures that a number is a certain number of digits long, adding leading zeros to fill in the remainder.</li>
-			<li><strong>logObject</strong>(obj:Object, name:String) <br />
-			[static] Logs the name of the object to the console, then line by line logs out each value within the object.</li>
-			<li><strong>timeFormat</strong>(seconds:uint, useHours:Boolean = false):String <br />
-			[static] Formats seconds into an minutes:seconds format, optionally an hours:minutes:seconds format.</li>
-			<li><strong>toDollars</strong>(value:Number):String <br />
-			[static] Formats a number as a dollar amount, such at $1,000,000.49.</li>
-			<li><strong>toUnicode</strong>(str:String):String <br />
-			[static] Converts a string to unicode characters. </li>
-			<li><strong>validateEmail</strong>(email:String):Boolean <br />
-			[static] Returns true if a valid email, false if not. Is it perfect? No. Good enough? Yes.</li>
+			<li><strong>addClass</strong>(elements:*, className:String) <br />
+			[static] Accepts either a single element, array of elements, or node list and applies a class to each if it does not already exist. </li>
+			<li><strong>addEventListener</strong>(elements:*, event:String, listener:Function) <br />
+			[static] Accepts either a single element, array of elements, or node list and adds an event listener to each.</li>
+			<li><strong>addMouseEnter</strong>(elements:*, listener:Function) <br />
+			[static] Accepts either a single element, array of elements, or node list and adds an event listener simulating jQuery’s mouseEnter. </li>
+			<li><strong>addMouseLeave</strong>(elements:*, listener:Function) <br />
+			[static] Accepts either a single element, array of elements, or node list and adds an event listener simulating jQuery’s mouseLeave. </li>
+			<li><strong>autoAlpha</strong>(elements:*, value:Number) <br />
+			[static] Accepts either a single element, array of elements, or node list and sets the opacity, while also setting visibility to hidden if at 0. </li>
+			<li><strong>bind</strong>(functions:Array, obj:Object, ...args:*) <br />
+			[static] Loops through an array of function names as strings, finds them on the object, and replaces them with versions which are bound to the object, with any additional parameters provided. Useful in writing object-oriented JavaScript on a class where you can with one line write <code>Utils.bind(["play", "stop", "resize"], this);</code> rather than <code>this.play.bind(this); this.stop.bind(this); this.resize.bind(this);</code></li>
+			<li><strong>browser</strong>():Object <br />
+			[static] Returns an object which contains information on the browser name, version and vendor prefix; and whether the browser is webkit, phone, tablet, mobile, iOS, or Android.  </li>
+			<li><strong>bubbleSort</strong>(array:Array, compare:function):Array <br />
+			[static] Sorts an array and returns the results specifically using the bubble sort method.  </li>
+			<li><strong>compare</strong>(a:Object, b:Object) <br />
+			[static] Accepts two objects to compare similarity.  </li>
+			<li><strong>css</strong>(elements:*, props:Object) <br />
+			[static] Accepts either a single element, array of elements, or node list and applies all style properties contained in props to them.  </li>
+			<li><strong>duplicate</strong>(obj:Object) <br />
+			[static] Accepts and object and returns a duplicate.  </li>
+			<li><strong>getStyle</strong>(element:Element, property:String):String <br />
+			[static] First looks for the element’s style on it’s style object, if not there, looks to the window.getComputedStyle of the element.  </li>
+			<li><strong>getMatrixStyle</strong>(element:Element, axis:String):Number <br />
+			[static] Returns a number representing an elements transform on a specified axis.  </li>
+			<li><strong>getURLVars</strong>():Object <br />
+			[static] Returns an object with all current url variables.  </li>
+			<li><strong>hasClass</strong>(elements:*, className:String):Boolean <br />
+			[static] Accepts either a single element, array of elements, or node list and looks through all of them and returns if one of them has that class or not.  </li>
+			<li><strong>loadBigImages</strong>(parent:Element) <br />
+			[static] Accepts either single element, and searches within it, and including it, for elements with a “data-background-image” or “data-src” attribute and applies that to the image, then deletes the data attribute. Good for loading large images below the fold after the entire page has loaded, or loading in all the images of a slideshow only when it gets activated.  </li>
+			<li><strong>merge</strong>(newObject:Object, oldObject:Object, copy:Boolean = false):Object <br />
+			[static] Merges one object onto another and returns the result.  </li>
+			<li><strong>removeClass</strong>(elements:*, className:String) <br />
+			[static] Accepts either a single element, array of elements, or node list and removes a class from each if it exists. </li>
+			<li><strong>removeEventListener</strong>(elements:*, event:String, listener:Function) <br />
+			[static] Accepts either a single element, array of elements, or node list and removes an event listener from each.</li>
+			<li><strong>removeMouseEnter</strong>(elements:*, listener:Function) <br />
+			[static] Accepts either a single element, array of elements, or node list and removes an event listener simulating jQuery’s mouseEnter. </li>
+			<li><strong>removeMouseLeave</strong>(elements:*, listener:Function) <br />
+			[static] Accepts either a single element, array of elements, or node list and removes an event listener simulating jQuery’s mouseLeave. </li>
+			<li><strong>touch</strong>():Boolean <br />
+			[static] Returns whether or not the browser supports touch events. </li>
 		</ul>
 		<div id="random">
 			<h2>EXAMPLE 1: RANDOM</h2>
@@ -273,13 +406,13 @@
 					function reset()
 					{
 						timer.reset();
-						document.getElementById("timerFigure").innerHTML=MyText.timeFormat();
+						document.getElementById("timerFigure").innerHTML=MyText.formatTime();
 					}
 
 					function onTimer(evt)
 					{
 						logEvent(evt);
-						var str=MyText.timeFormat(evt.target.currentCount());
+						var str=MyText.formatTime(evt.target.currentCount());
 						document.getElementById("timerFigure").innerHTML=str;
 					}
 
