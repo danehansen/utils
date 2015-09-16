@@ -9,10 +9,10 @@ var Utils = {};
 (function(){
 	"use strict";
 
-		function _isList(list)
-		{
-			return list.length != undefined;
-		}
+	function _isList(list)
+	{
+		return list.length != undefined;
+	}
 
 	Utils.addClass = function(elements, str)
 	{
@@ -361,6 +361,8 @@ var Utils = {};
 	Utils.getMatrixStyle = function(element, axis)
 	{
 		var transform = Utils.getStyle(element, "transform");
+		if(!transform)
+			return 0;
 		if(axis === "x")
 			var amount = transform.split(",")[4];
 		else if(axis === "y")

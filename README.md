@@ -113,7 +113,7 @@ The MyMath class contains a collection of mathematical equations either written 
 
 ##Public Methods##
 
-* __average__(... args):Number  
+* __average__(...args):Number  
 [static] Accepts either an unlimited quantity of numbers or an array of numbers and returns the total. 
 * __ceil__(num:Number, increment:Number = 1):Number  
 [static] Rounds a number up to the nearest increment. 

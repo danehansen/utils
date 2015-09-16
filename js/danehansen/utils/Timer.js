@@ -4,12 +4,11 @@
 // version: 1.0.0 /////////////////////////////
 //////////////////////////////////////////////
 
+//requires danehansen/display/EventDispatcher.js
+var EventDispatcher = EventDispatcher || require("../events/EventDispatcher");
+
 (function(){
 	"use strict";
-
-	//requires danehansen/events/EventDispatcher.js
-	if(typeof module != "undefined")
-		EventDispatcher = require("../events/EventDispatcher");
 
 	function Timer(delay, repeatCount)
 	{

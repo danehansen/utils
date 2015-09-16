@@ -4,15 +4,13 @@
 // version: 1.0.0 /////////////////////////////
 //////////////////////////////////////////////
 
+//requires danehansen/utils/Utils.js
+var Utils = Utils || require("./Utils");
 
 var Cookie = {};
 
 (function(){
 	"use strict";
-
-	//requires danehansen/utils/Utils.js
-	if(typeof module != "undefined")
-		Utils = require("./Utils");
 
 	var _DAYS = 30;
 
