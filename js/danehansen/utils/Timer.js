@@ -111,7 +111,7 @@ var EventDispatcher = EventDispatcher || require("../events/EventDispatcher");
 			{
 				this._currentCount++;
 				this.dispatchEvent(Timer.TIMER);
-				if(this._currentCount < this._repeatCount)
+				if(!this._repeatCount || this._currentCount < this._repeatCount)
 					this._increment();
 				else
 					this._onTimerComplete();
