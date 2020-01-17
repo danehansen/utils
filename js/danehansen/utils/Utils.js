@@ -552,3 +552,8 @@ var Utils = {};
 	if(typeof module != "undefined")
 		module.exports = Utils;
 })();
+
+//scroll stuff in progress
+// const end = Math.min(document.body.scrollHeight - root.offsetHeight, root.offsetHeight + root.offsetTop - HEADER_HEIGHT)
+// const start = Math.max(0, root.offsetTop - globals.innerHeight)
+// const middle = ((root.offsetHeight + root.offsetTop - HEADER_HEIGHT) + (root.offsetTop - globals.innerHeight)) / 2
